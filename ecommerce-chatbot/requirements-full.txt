@@ -1,0 +1,6 @@
+# Full requirements (requires Python 3.11 and build tools on Windows)
+langchain==0.0.305
+openai==1.7.0
+python-dotenv==1.0.0
+python-telegram-bot==20.4
+# Note: numpy and other packages may require MS Visual C++ Build Tools on Windows

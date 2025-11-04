@@ -1,0 +1,17 @@
+[
+  {
+    "name": "Smartwatch X",
+    "price": "$59",
+    "desc": "Tracks steps, sleep, and heart rate."
+  },
+  {
+    "name": "Bluetooth Speaker Mini",
+    "price": "$29",
+    "desc": "Crisp sound and 12h battery life."
+  },
+  {
+    "name": "Wireless Earbuds Pro",
+    "price": "$79",
+    "desc": "Noise cancelling and waterproof."
+  }
+]

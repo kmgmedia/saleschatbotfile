@@ -1,0 +1,3 @@
+python-dotenv==1.0.0
+python-telegram-bot==20.4
+# Lightweight deps for development and dry-run (no langchain/openai)
