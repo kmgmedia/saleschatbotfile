@@ -4,10 +4,15 @@ Vercel webhook endpoint for Telegram bot
 import os
 import requests
 from flask import Flask, request, jsonify
+import sys
 
 app = Flask(__name__)
 
 TELEGRAM_TOKEN = os.getenv('TELEGRAM_TOKEN', '')
+
+# Log for debugging
+print(f"Token loaded: {'Yes' if TELEGRAM_TOKEN else 'No'}", file=sys.stderr)
+print(f"Token prefix: {TELEGRAM_TOKEN[:10]}..." if TELEGRAM_TOKEN else "No token", file=sys.stderr)
 
 # Simple keyword-based responses
 def get_response(message):
@@ -47,24 +52,39 @@ def health():
 @app.route('/', methods=['POST'])
 def webhook():
     try:
+        print("Received POST request", file=sys.stderr)
         update = request.get_json()
+        print(f"Update: {update}", file=sys.stderr)
+        
+        if not TELEGRAM_TOKEN:
+            print("ERROR: No TELEGRAM_TOKEN found!", file=sys.stderr)
+            return jsonify({'error': 'No token configured'}), 500
         
         if 'message' in update:
             message = update['message']
             chat_id = message['chat']['id']
+            print(f"Chat ID: {chat_id}", file=sys.stderr)
             
             if 'text' in message:
                 user_message = message['text']
+                print(f"User message: {user_message}", file=sys.stderr)
                 response_text = get_response(user_message)
+                print(f"Bot response: {response_text}", file=sys.stderr)
                 
                 # Send response via Telegram API
-                requests.post(
-                    f'https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage',
-                    json={'chat_id': chat_id, 'text': response_text}
-                )
+                url = f'https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage'
+                payload = {'chat_id': chat_id, 'text': response_text}
+                print(f"Sending to Telegram...", file=sys.stderr)
+                
+                result = requests.post(url, json=payload)
+                print(f"Telegram API response: {result.status_code}", file=sys.stderr)
+                print(f"Response body: {result.text}", file=sys.stderr)
         
         return jsonify({'ok': True})
     
     except Exception as e:
-        print(f"Error: {e}")
+        error_msg = f"Error: {str(e)}"
+        print(error_msg, file=sys.stderr)
+        import traceback
+        traceback.print_exc(file=sys.stderr)
         return jsonify({'error': str(e)}), 500
