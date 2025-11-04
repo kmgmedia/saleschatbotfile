@@ -158,6 +158,7 @@ def health():
     return html
 
 @app.route('/', methods=['POST'])
+@app.route('/webhook', methods=['POST'])
 def webhook():
     try:
         print("Received POST request", file=sys.stderr)
