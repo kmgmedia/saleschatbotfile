@@ -32,7 +32,7 @@ def get_response(message):
         return "⌚ The Smartwatch X is $59! It tracks your fitness, sleep, and heart rate. It's a fantastic deal! Interested?"
     
     if 'speaker' in msg:
-        return "🔊 Our Bluetooth Speaker Mini is just $29! Amazing sound quality with 12-hour battery life. Perfect for any occasion! Want one?"
+        return "� Our Bluetooth Speaker Mini is just $29! Amazing sound quality with 12-hour battery life. Perfect for any occasion! Want one?"
     
     if 'price' in msg or 'cost' in msg or 'how much' in msg:
         return "💰 Our prices:\n🎧 Earbuds Pro: $79\n⌚ Smartwatch X: $59\n🔊 Speaker Mini: $29\n\nGreat deals on quality products! Which one would you like?"
