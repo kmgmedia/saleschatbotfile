@@ -8,11 +8,8 @@ import sys
 
 app = Flask(__name__)
 
-TELEGRAM_TOKEN = os.getenv('TELEGRAM_TOKEN', '')
-
-# Log for debugging
-print(f"Token loaded: {'Yes' if TELEGRAM_TOKEN else 'No'}", file=sys.stderr)
-print(f"Token prefix: {TELEGRAM_TOKEN[:10]}..." if TELEGRAM_TOKEN else "No token", file=sys.stderr)
+# Don't load token at module level - load it in the function
+# TELEGRAM_TOKEN = os.getenv('TELEGRAM_TOKEN', '')
 
 # Simple keyword-based responses
 def get_response(message):
