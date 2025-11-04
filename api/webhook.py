@@ -188,12 +188,19 @@ def webhook():
                 payload = {'chat_id': chat_id, 'text': response_text}
                 print(f"Sending to Telegram...", file=sys.stderr)
                 
-                result = requests.post(url, json=payload)
-                print(f"Telegram API response: {result.status_code}", file=sys.stderr)
-                print(f"Response body: {result.text}", file=sys.stderr)
-                
-                if result.status_code != 200:
-                    print(f"ERROR sending message: {result.text}", file=sys.stderr)
+                try:
+                    result = requests.post(url, json=payload)
+                    print(f"Telegram API response: {result.status_code}", file=sys.stderr)
+                    print(f"Response body: {result.text}", file=sys.stderr)
+                    if result.status_code != 200:
+                        print(f"ERROR sending message: {result.text}", file=sys.stderr)
+                        # Log the payload and URL for debugging
+                        print(f"Payload: {payload}", file=sys.stderr)
+                        print(f"URL: {url}", file=sys.stderr)
+                except Exception as send_err:
+                    print(f"Exception sending message: {send_err}", file=sys.stderr)
+                    import traceback
+                    traceback.print_exc(file=sys.stderr)
         
         return jsonify({'ok': True})
     
