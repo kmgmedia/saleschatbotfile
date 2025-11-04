@@ -161,12 +161,20 @@ def health():
 @app.route('/webhook', methods=['POST'])
 def webhook():
     try:
-        print("Received POST request", file=sys.stderr)
-        update = request.get_json()
-        print(f"Update: {update}", file=sys.stderr)
+        print("=" * 50, file=sys.stderr)
+        print("WEBHOOK CALLED!", file=sys.stderr)
+        print("=" * 50, file=sys.stderr)
         
-        if not TELEGRAM_TOKEN:
-            print("ERROR: No TELEGRAM_TOKEN found!", file=sys.stderr)
+        update = request.get_json()
+        print(f"Update received: {update}", file=sys.stderr)
+        
+        # Check if token exists
+        token = os.getenv('TELEGRAM_TOKEN', '')
+        print(f"Token exists: {bool(token)}", file=sys.stderr)
+        if token:
+            print(f"Token prefix: {token[:15]}...", file=sys.stderr)
+        else:
+            print("ERROR: NO TOKEN FOUND!", file=sys.stderr)
             return jsonify({'error': 'No token configured'}), 500
         
         if 'message' in update:
@@ -181,19 +189,26 @@ def webhook():
                 print(f"Bot response: {response_text}", file=sys.stderr)
                 
                 # Send response via Telegram API
-                url = f'https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage'
+                url = f'https://api.telegram.org/bot{token}/sendMessage'
                 payload = {'chat_id': chat_id, 'text': response_text}
-                print(f"Sending to Telegram...", file=sys.stderr)
+                print(f"Sending to: {url[:50]}...", file=sys.stderr)
+                print(f"Payload: {payload}", file=sys.stderr)
                 
                 result = requests.post(url, json=payload)
-                print(f"Telegram API response: {result.status_code}", file=sys.stderr)
+                print(f"Telegram API response status: {result.status_code}", file=sys.stderr)
                 print(f"Response body: {result.text}", file=sys.stderr)
+                
+                if result.status_code != 200:
+                    print(f"ERROR sending message: {result.text}", file=sys.stderr)
         
+        print("Webhook completed successfully", file=sys.stderr)
         return jsonify({'ok': True})
     
     except Exception as e:
         error_msg = f"Error: {str(e)}"
-        print(error_msg, file=sys.stderr)
+        print("=" * 50, file=sys.stderr)
+        print(f"EXCEPTION: {error_msg}", file=sys.stderr)
+        print("=" * 50, file=sys.stderr)
         import traceback
         traceback.print_exc(file=sys.stderr)
         return jsonify({'error': str(e)}), 500
