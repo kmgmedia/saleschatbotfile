@@ -54,7 +54,7 @@ def health():
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta http-equiv="refresh" content="3; url=https://t.me/Store_help_bot">
+        <meta http-equiv="refresh" content="15; url=https://t.me/Store_help_bot">
         <title>ShopBot - AI Shopping Assistant</title>
         <style>
             * {
@@ -143,14 +143,14 @@ def health():
                 <p>🔊 Bluetooth Speaker Mini - $29</p>
             </div>
             <div class="loader">
-                <p>Redirecting to Telegram in 3 seconds...</p>
+                <p>Redirecting to Telegram in 15 seconds...</p>
             </div>
         </div>
 
         <script>
             setTimeout(function() {
                 window.location.href = 'https://t.me/Store_help_bot';
-            }, 3000);
+            }, 15000);
         </script>
     </body>
     </html>
