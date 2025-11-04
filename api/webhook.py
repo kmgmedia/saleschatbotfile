@@ -8,7 +8,7 @@ import sys
 
 app = Flask(__name__)
 
-TELEGRAM_TOKEN = os.getenv('TELEGRAM_TOKEN', '')
+TELEGRAM_TOKEN = '8406484306:AAGFaUPM0rJtCJ7veFCYA9bduY6N3xS6Gps'
 
 # Log for debugging
 print(f"Token loaded: {'Yes' if TELEGRAM_TOKEN else 'No'}", file=sys.stderr)
