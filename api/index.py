@@ -1,15 +1,14 @@
-import json
+from flask import Flask, jsonify
 
-def handler(event, context):
-    return {
-        'statusCode': 200,
-        'headers': {'Content-Type': 'application/json'},
-        'body': json.dumps({
-            'status': 'ok',
-            'message': 'ShopBot Webhook Server is running!',
-            'endpoints': {
-                'webhook': '/api/webhook',
-                'health': '/api/index'
-            }
-        }, indent=2)
-    }
+app = Flask(__name__)
+
+@app.route('/')
+def index():
+    return jsonify({
+        'status': 'ok',
+        'message': 'ShopBot Webhook Server is running!',
+        'endpoints': {
+            'webhook': '/api/webhook',
+            'health': '/api/index'
+        }
+    })
