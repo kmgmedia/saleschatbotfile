@@ -60,7 +60,9 @@ def get_response(message):
     
     return "I'm here to help you find the perfect tech product! 🛍️\n\nWe have:\n🎧 Audio (Earbuds, Speaker)\n⌚ Wearables (Smartwatch)\n🔋 Power Solutions (Power Bank)\n🏠 Smart Home (Hub)\n📹 Cameras (4K Action Camera)\n\nWhat would you like to know more about?"
 
-# Simple keyword-based responses
+@app.route('/', methods=['GET'])
+def health():
+    # Serve a nice landing page
     html = """
     <!DOCTYPE html>
     <html lang="en">
