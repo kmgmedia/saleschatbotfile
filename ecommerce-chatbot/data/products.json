@@ -13,5 +13,20 @@
     "name": "Wireless Earbuds Pro",
     "price": "$79",
     "desc": "Noise cancelling and waterproof."
-  }
+  },
+  {
+    "name": "Power Bank 20000mAh",
+  "price": 30000,
+  "desc": "Fast-charging power bank with dual USB ports."
+},
+  {
+  "name": "Smart Home Hub",
+  "price": 45000,
+  "desc": "Control all your smart devices from one hub."
+},
+  {
+    "name": "4K Action Camera",
+  "price": 85000,
+  "desc": "Capture stunning 4K videos with image stabilization."
+}
 ]

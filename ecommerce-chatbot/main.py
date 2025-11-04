@@ -58,6 +58,9 @@ Available Products:
 1. **Smartwatch X** - $59 - Tracks steps, sleep, and heart rate. Perfect for fitness enthusiasts!
 2. **Bluetooth Speaker Mini** - $29 - Crisp sound and 12h battery life. Great for music lovers on the go!
 3. **Wireless Earbuds Pro** - $79 - Noise cancelling and waterproof. Ideal for workouts and commuting!
+4. **Power Bank 20000mAh** - $300 - Fast-charging power bank with dual USB ports. Never run out of power!
+5. **Smart Home Hub** - $450 - Control all your smart devices from one hub. Make your home smarter!
+6. **4K Action Camera** - $850 - Capture stunning 4K videos with image stabilization. Perfect for adventures!
 
 Communication style:
 - Keep responses concise but informative (2-4 sentences)
@@ -88,7 +91,7 @@ else:
         msg_lower = user_message.lower()
 
         if any(word in msg_lower for word in ['hi', 'hello', 'hey', 'start', 'hey are you available', 'sup', 'good morning', 'good afternoon', 'good evening', 'i need help']):
-            return "👋 Hello! Welcome to ShopBot! I'm here to help you find amazing products. We have smartwatches, wireless earbuds, and bluetooth speakers. What are you looking for today?"
+            return "👋 Hello! Welcome to ShopBot from KMGMedia Design & Technologies! I'm here to help you find amazing tech products. We have smartwatches, wireless earbuds, bluetooth speakers, power banks, smart home hubs, and 4K action cameras. What are you looking for today?"
         
         elif any(word in msg_lower for word in ['earbud', 'headphone', 'audio', 'music']):
             return "🎧 Great choice! I'd recommend our **Wireless Earbuds Pro** ($79):\n\n✅ Noise cancelling technology\n✅ Waterproof design\n✅ Perfect for workouts and commuting\n\nThey're one of our best-sellers! Would you like to know more about them?"
@@ -99,11 +102,20 @@ else:
         elif any(word in msg_lower for word in ['speaker', 'sound', 'bluetooth']):
             return "🔊 Excellent! The **Bluetooth Speaker Mini** ($29) is perfect:\n\n✅ Crisp, clear sound\n✅ 12-hour battery life\n✅ Portable and lightweight\n\nGreat for parties or outdoor use! Want to order one?"
         
-        elif any(word in msg_lower for word in ['price', 'cost', 'cheap', 'affordable']):
-            return "💰 Here are our prices:\n\n🔸 Bluetooth Speaker Mini - **$29** (Best value!)\n🔸 Smartwatch X - **$59**\n🔸 Wireless Earbuds Pro - **$79**\n\nAll products come with free shipping! Which one interests you?"
+        elif any(word in msg_lower for word in ['power bank', 'powerbank', 'battery', 'charging']):
+            return "🔋 Awesome! Our **Power Bank 20000mAh** ($300) is a game-changer:\n\n✅ Fast-charging technology\n✅ Dual USB ports\n✅ Charge multiple devices at once\n\nNever run out of power again! Interested?"
         
-        elif any(word in msg_lower for word in ['all', 'products', 'what', 'show', 'available']):
-            return "🛍️ Here's what we have in stock:\n\n1️⃣ **Smartwatch X** - $59\n   Track your fitness goals!\n\n2️⃣ **Bluetooth Speaker Mini** - $29\n   Amazing sound quality!\n\n3️⃣ **Wireless Earbuds Pro** - $79\n   Noise cancelling & waterproof!\n\nWhich one catches your eye? 😊"
+        elif any(word in msg_lower for word in ['smart home', 'home hub', 'hub', 'automation']):
+            return "🏠 Fantastic! The **Smart Home Hub** ($450) is incredible:\n\n✅ Control all smart devices from one place\n✅ Works with lights, thermostats, security systems\n✅ Voice control compatible\n\nMake your home smarter today! Want to learn more?"
+        
+        elif any(word in msg_lower for word in ['camera', 'action camera', '4k', 'video', 'gopro']):
+            return "📹 Perfect for adventures! Our **4K Action Camera** ($850) is top-notch:\n\n✅ Stunning 4K video quality\n✅ Professional image stabilization\n✅ Waterproof and rugged design\n\nCapture amazing moments! Ready to order?"
+        
+        elif any(word in msg_lower for word in ['price', 'cost', 'cheap', 'affordable']):
+            return "💰 Here are our prices:\n\n🔸 Bluetooth Speaker Mini - **$29** (Best value!)\n🔸 Smartwatch X - **$59**\n🔸 Wireless Earbuds Pro - **$79**\n🔸 Power Bank 20000mAh - **$300**\n🔸 Smart Home Hub - **$450**\n🔸 4K Action Camera - **$850**\n\nFree shipping on orders over $100! Which one interests you?"
+        
+        elif any(word in msg_lower for word in ['all', 'products', 'what', 'show', 'available', 'catalog']):
+            return "🛍️ Here's our complete catalog:\n\n1️⃣ **Smartwatch X** - $59\n   Track your fitness goals!\n\n2️⃣ **Bluetooth Speaker Mini** - $29\n   Amazing sound quality!\n\n3️⃣ **Wireless Earbuds Pro** - $79\n   Noise cancelling & waterproof!\n\n4️⃣ **Power Bank 20000mAh** - $300\n   Fast-charging power solution!\n\n5️⃣ **Smart Home Hub** - $450\n   Control your entire home!\n\n6️⃣ **4K Action Camera** - $850\n   Pro-level video capture!\n\nWhich one catches your eye? 😊"
         
         elif any(word in msg_lower for word in ['buy', 'order', 'purchase', 'get']):
             return "🎉 Awesome! To complete your order, please click the 'Buy Now' button or contact our sales team. We offer:\n\n✅ Free shipping\n✅ 30-day returns\n✅ 1-year warranty\n\nAnything else I can help you with?"
@@ -112,7 +124,7 @@ else:
             return "You're very welcome! 😊 Feel free to ask if you need anything else. Happy shopping! 🛒"
         
         else:
-            return f"I'm here to help! We have great products like smartwatches ($59), wireless earbuds ($79), and bluetooth speakers ($29). Could you tell me more about what you're looking for? 🤔"
+            return f"I'm here to help! We have great tech products like smartwatches ($59), wireless earbuds ($79), bluetooth speakers ($29), power banks ($300), smart home hubs ($450), and 4K action cameras ($850). Could you tell me more about what you're looking for? 🤔"
 
 # --- Telegram integration ---
 async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
