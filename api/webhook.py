@@ -8,8 +8,11 @@ import sys
 
 app = Flask(__name__)
 
-# Don't load token at module level - load it in the function
-# TELEGRAM_TOKEN = os.getenv('TELEGRAM_TOKEN', '')
+TELEGRAM_TOKEN = os.getenv('TELEGRAM_TOKEN', '')
+
+# Log for debugging
+print(f"Token loaded: {'Yes' if TELEGRAM_TOKEN else 'No'}", file=sys.stderr)
+print(f"Token prefix: {TELEGRAM_TOKEN[:10]}..." if TELEGRAM_TOKEN else "No token", file=sys.stderr)
 
 # Simple keyword-based responses
 def get_response(message):
@@ -165,13 +168,8 @@ def webhook():
         update = request.get_json()
         print(f"Update received: {update}", file=sys.stderr)
         
-        # Check if token exists
-        token = os.getenv('TELEGRAM_TOKEN', '')
-        print(f"Token exists: {bool(token)}", file=sys.stderr)
-        if token:
-            print(f"Token prefix: {token[:15]}...", file=sys.stderr)
-        else:
-            print("ERROR: NO TOKEN FOUND!", file=sys.stderr)
+        if not TELEGRAM_TOKEN:
+            print("ERROR: NO TELEGRAM_TOKEN found!", file=sys.stderr)
             return jsonify({'error': 'No token configured'}), 500
         
         if 'message' in update:
@@ -186,19 +184,17 @@ def webhook():
                 print(f"Bot response: {response_text}", file=sys.stderr)
                 
                 # Send response via Telegram API
-                url = f'https://api.telegram.org/bot{token}/sendMessage'
+                url = f'https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage'
                 payload = {'chat_id': chat_id, 'text': response_text}
-                print(f"Sending to: {url[:50]}...", file=sys.stderr)
-                print(f"Payload: {payload}", file=sys.stderr)
+                print(f"Sending to Telegram...", file=sys.stderr)
                 
                 result = requests.post(url, json=payload)
-                print(f"Telegram API response status: {result.status_code}", file=sys.stderr)
+                print(f"Telegram API response: {result.status_code}", file=sys.stderr)
                 print(f"Response body: {result.text}", file=sys.stderr)
                 
                 if result.status_code != 200:
                     print(f"ERROR sending message: {result.text}", file=sys.stderr)
         
-        print("Webhook completed successfully", file=sys.stderr)
         return jsonify({'ok': True})
     
     except Exception as e:
