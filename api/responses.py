@@ -72,7 +72,142 @@ def get_fallback_response(message, user_id=None):
 
 Which category interests you?"""
     
-    # Smart Home Products
+    # Category browsing (MUST be before individual product detection!)
+    if ('smart home' in msg or msg.strip() == 'smart home') and not any(word in msg for word in ['automate', 'automation', 'control lights', 'voice control', 'home security', 'protect home']):
+        return """🏠 **SMART HOME PRODUCTS** (6 Items):
+
+💡 **Smart LED Strip Lights** - $49
+16 million colors, voice control, music sync, and app-controlled mood lighting. Transform any room!
+
+💡 **Smart Light Bulb (4-Pack)** - $99
+Voice-controlled bulbs with 16M colors. Works with Alexa and Google Home. Set schedules & scenes!
+
+🔔 **Smart Doorbell Cam** - $190
+See and talk to visitors from anywhere. Real-time motion alerts. Never miss a delivery!
+
+🎥 **Smart Security Camera** - $210
+1080p live feed, night vision, and motion alerts. Keep your home safe 24/7. Peace of mind guaranteed!
+
+🌡️ **Smart Thermostat** - $220
+AI-powered temperature control with energy-saving schedules and remote access. Save energy in style!
+
+🏠 **Smart Home Hub** - $450
+Control all your smart devices from one central hub - lights, thermostats, security, and more!
+
+---
+
+🎁 **SMART HOME BUNDLES:**
+
+**💡 Lighting Starter** - $148 (Save $25!)
+LED Strip Lights + Light Bulb 4-Pack
+
+**🔒 Security Bundle** - $400 (Save $50!)
+Doorbell Cam + Security Camera
+
+**🏡 Complete Smart Home** - $1,218 (Save $100!)
+All 6 smart home products!
+
+Which product or bundle interests you? 🎯"""
+    
+    if 'audio' in msg and not any(word in msg for word in ['earbud', 'speaker', 'headphone']):
+        return """🎧 **AUDIO PRODUCTS** (3 Items):
+
+🔊 **Bluetooth Speaker Mini** - $29
+Amazing sound quality with 12-hour battery life. Perfect for any occasion! Compact and powerful.
+
+🎧 **Wireless Earbuds Pro** - $79
+Noise cancelling, waterproof, and perfect for workouts and commuting! Great sound quality.
+
+🎧 **Noise-Cancelling Headphones** - $180
+Immersive sound and comfort for travelers and creators. Block out the world, focus on what matters!
+
+---
+
+🎁 **AUDIO BUNDLE - Save $20!**
+Get all 3 audio products for just **$268** (Regular $288)
+✅ Complete audio solution for every situation!
+
+Which audio product interests you? Or type "bundle" to get them all! 🎵"""
+    
+    if 'wearable' in msg:
+        return """⌚ **WEARABLES** (2 Items):
+
+💪 **Fitness Tracker Band** - $35
+Lightweight, waterproof, tracks calories & heart rate. For everyday health monitoring. Affordable fitness!
+
+⌚ **Smartwatch X** - $59
+Tracks steps, sleep, and heart rate. Perfect for fitness enthusiasts! Great deal!
+
+---
+
+🎁 **FITNESS BUNDLE - Save $15!**
+Get both wearables for just **$79** (Regular $94)
+✅ Complete fitness tracking solution!
+
+Which one fits your lifestyle? Or get the bundle! 💪"""
+    
+    if 'power' in msg and 'charging' in msg:
+        return """🔋 **POWER & CHARGING** (3 Items):
+
+⚡ **Wireless Charging Pad** - $45
+Sleek and fast Qi-certified charger for all devices. Goodbye cables! Clean and convenient!
+
+☀️ **Portable Solar Charger** - $99
+Eco-friendly energy solution for camping and travel lovers. Never run out of power outdoors!
+
+🔋 **Power Bank 20000mAh** - $300
+Fast-charging with dual USB ports - charge multiple devices at once! Never run out of power!
+
+---
+
+🎁 **POWER BUNDLE - Save $35!**
+Get all 3 power products for just **$409** (Regular $444)
+✅ Complete power solution for home & travel!
+
+Which power solution do you need? 🔌"""
+    
+    if 'productivity' in msg or ('work' in msg and 'work from home' not in msg):
+        return """💻 **PRODUCTIVITY** (2 Items):
+
+💻 **Laptop Stand Pro** - $75
+Ergonomic aluminum stand for better posture and airflow. Work comfortably all day!
+
+⌨️ **Foldable Wireless Keyboard** - $89
+Portable Bluetooth keyboard that fits in your bag. Perfect for remote work and travel!
+
+---
+
+🎁 **WORKSPACE BUNDLE - Save $20!**
+Get both for just **$144** (Regular $164)
+✅ Complete ergonomic workspace setup!
+
+Which one interests you? Or grab the bundle! 💼"""
+    
+    if ('camera' in msg or 'entertainment' in msg) and not any(word in msg for word in ['security camera', 'doorbell cam', 'action camera', '4k camera']):
+        return """📹 **CAMERAS & ENTERTAINMENT** (4 Items):
+
+🚁 **Mini Drone X2** - $250
+Compact drone with HD camera, gesture control, and obstacle avoidance. Perfect for aerial photography!
+
+📽️ **Portable Projector Pro** - $320
+Pocket-sized projector with HDMI and wireless casting. Movie nights, anywhere! Cinema in your pocket!
+
+🥽 **VR Headset Max** - $480
+Immersive gaming and exploration. Compatible with major devices. Step into another world!
+
+📹 **4K Action Camera** - $850
+Capture stunning 4K videos with professional image stabilization. Waterproof and rugged for extreme adventures!
+
+---
+
+🎁 **ENTERTAINMENT BUNDLE - Save $120!**
+Get all 4 for just **$1,780** (Regular $1,900)
+✅ Complete content creation & entertainment setup!
+
+Which one excites you most? 🎬"""
+    
+    # Smart Home Products (individual items)
+
     if 'led' in msg or 'strip light' in msg or 'mood light' in msg:
         return "💡 Smart LED Strip Lights - $49! Customizable colors via app control. Set the mood for any room or event. Perfect for gaming setups, bedrooms, or parties! Want one?"
     
@@ -335,6 +470,162 @@ Ready to upgrade your workspace? 🚀"""
 → Work & play anywhere in the world!
 
 Where's your next adventure? 🌍"""
+    
+    if 'thank' in msg or 'thanks' in msg:
+        return "😊 You're welcome! Happy to help! Let me know if you need anything else!"
+    
+    return """I'm here to help you find the perfect tech product! 🛍️
+
+**Browse by Category:**
+💡 Smart Home (6 products)
+🎧 Audio (3 products)
+⌚ Wearables (2 products)
+🔋 Power & Charging (3 products)
+💻 Productivity (2 products)
+📹 Cameras & Entertainment (4 products)
+
+**Or tell me your use case:**
+💪 Fitness & Health
+🏠 Smart Home Automation
+🎮 Entertainment & Gaming
+💼 Work From Home
+✈️ Travel & Adventure
+
+Type a category or use case!"""
+    
+    # Category browsing
+    if ('smart home' in msg or msg.strip() == 'smart home') and not any(word in msg for word in ['automate', 'automation', 'control lights', 'voice control', 'home security', 'protect home']):
+        return """🏠 **SMART HOME PRODUCTS** (6 Items):
+
+💡 **Smart LED Strip Lights** - $49
+16 million colors, voice control, music sync, and app-controlled mood lighting. Transform any room!
+
+💡 **Smart Light Bulb (4-Pack)** - $99
+Voice-controlled bulbs with 16M colors. Works with Alexa and Google Home. Set schedules & scenes!
+
+🔔 **Smart Doorbell Cam** - $190
+See and talk to visitors from anywhere. Real-time motion alerts. Never miss a delivery!
+
+🎥 **Smart Security Camera** - $210
+1080p live feed, night vision, and motion alerts. Keep your home safe 24/7. Peace of mind guaranteed!
+
+🌡️ **Smart Thermostat** - $220
+AI-powered temperature control with energy-saving schedules and remote access. Save energy in style!
+
+🏠 **Smart Home Hub** - $450
+Control all your smart devices from one central hub - lights, thermostats, security, and more!
+
+---
+
+🎁 **SMART HOME BUNDLES:**
+
+**💡 Lighting Starter** - $148 (Save $25!)
+LED Strip Lights + Light Bulb 4-Pack
+
+**🔒 Security Bundle** - $400 (Save $50!)
+Doorbell Cam + Security Camera
+
+**🏡 Complete Smart Home** - $1,218 (Save $100!)
+All 6 smart home products!
+
+Which product or bundle interests you? 🎯"""
+    
+    if 'audio' in msg and not any(word in msg for word in ['earbud', 'speaker', 'headphone']):
+        return """🎧 **AUDIO PRODUCTS** (3 Items):
+
+🔊 **Bluetooth Speaker Mini** - $29
+Amazing sound quality with 12-hour battery life. Perfect for any occasion! Compact and powerful.
+
+🎧 **Wireless Earbuds Pro** - $79
+Noise cancelling, waterproof, and perfect for workouts and commuting! Great sound quality.
+
+🎧 **Noise-Cancelling Headphones** - $180
+Immersive sound and comfort for travelers and creators. Block out the world, focus on what matters!
+
+---
+
+🎁 **AUDIO BUNDLE - Save $20!**
+Get all 3 audio products for just **$268** (Regular $288)
+✅ Complete audio solution for every situation!
+
+Which audio product interests you? Or type "bundle" to get them all! 🎵"""
+    
+    if 'wearable' in msg:
+        return """⌚ **WEARABLES** (2 Items):
+
+💪 **Fitness Tracker Band** - $35
+Lightweight, waterproof, tracks calories & heart rate. For everyday health monitoring. Affordable fitness!
+
+⌚ **Smartwatch X** - $59
+Tracks steps, sleep, and heart rate. Perfect for fitness enthusiasts! Great deal!
+
+---
+
+🎁 **FITNESS BUNDLE - Save $15!**
+Get both wearables for just **$79** (Regular $94)
+✅ Complete fitness tracking solution!
+
+Which one fits your lifestyle? Or get the bundle! 💪"""
+    
+    if 'power' in msg and 'charging' in msg:
+        return """🔋 **POWER & CHARGING** (3 Items):
+
+⚡ **Wireless Charging Pad** - $45
+Sleek and fast Qi-certified charger for all devices. Goodbye cables! Clean and convenient!
+
+☀️ **Portable Solar Charger** - $99
+Eco-friendly energy solution for camping and travel lovers. Never run out of power outdoors!
+
+🔋 **Power Bank 20000mAh** - $300
+Fast-charging with dual USB ports - charge multiple devices at once! Never run out of power!
+
+---
+
+🎁 **POWER BUNDLE - Save $35!**
+Get all 3 power products for just **$409** (Regular $444)
+✅ Complete power solution for home & travel!
+
+Which power solution do you need? 🔌"""
+    
+    if 'productivity' in msg or 'work' in msg and not 'work from home' in msg:
+        return """💻 **PRODUCTIVITY** (2 Items):
+
+💻 **Laptop Stand Pro** - $75
+Ergonomic aluminum stand for better posture and airflow. Work comfortably all day!
+
+⌨️ **Foldable Wireless Keyboard** - $89
+Portable Bluetooth keyboard that fits in your bag. Perfect for remote work and travel!
+
+---
+
+🎁 **WORKSPACE BUNDLE - Save $20!**
+Get both for just **$144** (Regular $164)
+✅ Complete ergonomic workspace setup!
+
+Which one interests you? Or grab the bundle! 💼"""
+    
+    if 'camera' in msg or 'entertainment' in msg:
+        return """📹 **CAMERAS & ENTERTAINMENT** (4 Items):
+
+🚁 **Mini Drone X2** - $250
+Compact drone with HD camera, gesture control, and obstacle avoidance. Perfect for aerial photography!
+
+📽️ **Portable Projector Pro** - $320
+Pocket-sized projector with HDMI and wireless casting. Movie nights, anywhere! Cinema in your pocket!
+
+🥽 **VR Headset Max** - $480
+Immersive gaming and exploration. Compatible with major devices. Step into another world!
+
+📹 **4K Action Camera** - $850
+Capture stunning 4K videos with professional image stabilization. Waterproof and rugged for extreme adventures!
+
+---
+
+🎁 **ENTERTAINMENT BUNDLE - Save $120!**
+Get all 4 for just **$1,780** (Regular $1,900)
+✅ Complete content creation & entertainment setup!
+
+Which one excites you most? 🎬"""
     
     if 'thank' in msg or 'thanks' in msg:
         return "😊 You're welcome! Happy to help! Let me know if you need anything else!"
