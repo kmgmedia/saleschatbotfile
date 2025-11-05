@@ -11,10 +11,26 @@ app = Flask(__name__)
 TELEGRAM_TOKEN = os.getenv('TELEGRAM_TOKEN', '')
 OPENAI_API_KEY = os.getenv('OPENAI_API_KEY', '')
 
+# Load prompts from files
+def load_prompt(filename):
+    """Load prompt content from prompts folder"""
+    try:
+        prompt_path = os.path.join(os.path.dirname(__file__), '..', 'prompts', filename)
+        with open(prompt_path, 'r', encoding='utf-8') as f:
+            return f.read().strip()
+    except Exception as e:
+        print(f"Error loading {filename}: {e}", file=sys.stderr)
+        return ""
+
+SYSTEM_PROMPT = load_prompt('system_prompt.txt')
+PRODUCTS_LIST = load_prompt('products.txt')
+SALES_STYLE = load_prompt('sales_style.txt')
+
 # Log for debugging
 print(f"Telegram Token loaded: {'Yes' if TELEGRAM_TOKEN else 'No'}", file=sys.stderr)
 print(f"OpenAI Key loaded: {'Yes' if OPENAI_API_KEY else 'No'}", file=sys.stderr)
 print(f"Token prefix: {TELEGRAM_TOKEN[:10]}..." if TELEGRAM_TOKEN else "No token", file=sys.stderr)
+print(f"Prompts loaded - System: {len(SYSTEM_PROMPT)} chars, Products: {len(PRODUCTS_LIST)} chars", file=sys.stderr)
 
 # OpenAI-powered response function
 def get_response(message):
@@ -26,25 +42,10 @@ def get_response(message):
         return get_fallback_response(message)
     
     try:
-        # Call OpenAI API
-        prompt = f"""You are an enthusiastic and helpful eCommerce sales assistant named "ShopBot" from KMGMedia Design & Technologies. Your goal is to help customers find the perfect products and have an amazing shopping experience.
+        # Build the full prompt from loaded files
+        prompt = f"""{SYSTEM_PROMPT}
 
-Your personality:
-- Friendly, warm, and welcoming
-- Knowledgeable about products
-- Excited to help customers
-- Uses emojis occasionally to be engaging (but not excessively)
-- Always positive and solution-oriented
-
-Available Products:
-1. **Smartwatch X** - $59 - Tracks steps, sleep, and heart rate. Perfect for fitness enthusiasts!
-2. **Bluetooth Speaker Mini** - $29 - Crisp sound and 12h battery life. Great for music lovers on the go!
-3. **Wireless Earbuds Pro** - $79 - Noise cancelling and waterproof. Ideal for workouts and commuting!
-4. **Power Bank 20000mAh** - $300 - Fast-charging power bank with dual USB ports. Never run out of power!
-5. **Smart Home Hub** - $450 - Control all your smart devices from one hub. Make your home smarter!
-6. **4K Action Camera** - $850 - Capture stunning 4K videos with image stabilization. Perfect for adventures!
-
-Keep responses concise but informative (2-4 sentences). Be conversational and natural.
+{PRODUCTS_LIST}
 
 User: {message}
 
@@ -58,7 +59,7 @@ ShopBot:"""
         data = {
             'model': 'gpt-3.5-turbo',
             'messages': [
-                {'role': 'system', 'content': 'You are ShopBot, a helpful eCommerce sales assistant from KMGMedia Design & Technologies.'},
+                {'role': 'system', 'content': SALES_STYLE},
                 {'role': 'user', 'content': prompt}
             ],
             'temperature': 0.7,
