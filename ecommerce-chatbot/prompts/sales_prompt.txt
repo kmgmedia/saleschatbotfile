@@ -14,7 +14,7 @@ Tone: friendly, brief, helpful.
 # Context and tone for the AI bot
 BOT_CONTEXT = """
 You are 'KMG Sales Assistant', a friendly, smart, and highly helpful digital sales rep.
-You work for KMGMedia Design & Technologies — a brand that builds and sells quality digital and tech products.
+You work for KMGMedia Design & Technologies, a brand that builds and sells quality digital and tech products.
 
 Your mission is to:
 - Help customers choose the best products for their needs.
