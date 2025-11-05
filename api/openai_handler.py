@@ -15,13 +15,19 @@ except ImportError:
 
 OPENAI_API_KEY = os.getenv('OPENAI_API_KEY', '')
 
-def get_response(message):
-    """Get chatbot response using OpenAI API with fallback"""
+def get_response(message, user_id=None):
+    """
+    Get chatbot response using OpenAI API with fallback.
+    
+    Args:
+        message: User's message text
+        user_id: User ID for conversation memory
+    """
     
     # If OpenAI key is not available, fall back to keyword responses
     if not OPENAI_API_KEY:
         print("WARNING: No OpenAI key - using fallback responses", file=sys.stderr)
-        return get_fallback_response(message)
+        return get_fallback_response(message, user_id)
     
     try:
         # Build the full prompt from loaded files
@@ -60,8 +66,8 @@ ShopBot:"""
             return reply
         else:
             print(f"OpenAI API error: {response.status_code} - {response.text}", file=sys.stderr)
-            return get_fallback_response(message)
+            return get_fallback_response(message, user_id)
             
     except Exception as e:
         print(f"OpenAI exception: {str(e)}", file=sys.stderr)
-        return get_fallback_response(message)
+        return get_fallback_response(message, user_id)

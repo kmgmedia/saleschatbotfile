@@ -7,19 +7,59 @@ import sys
 
 TELEGRAM_TOKEN = os.getenv('TELEGRAM_TOKEN', '')
 
-def send_message(chat_id, text):
-    """Send a message to a Telegram chat"""
+def send_message(chat_id, text, reply_markup=None):
+    """
+    Send a message to a Telegram chat.
+    
+    Args:
+        chat_id: The chat ID to send to
+        text: Message text
+        reply_markup: Optional inline keyboard markup (dict)
+    """
     url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
     payload = {
         'chat_id': chat_id,
         'text': text,
         'parse_mode': 'Markdown'
     }
+    
+    if reply_markup:
+        payload['reply_markup'] = reply_markup
+    
     try:
         response = requests.post(url, json=payload, timeout=10)
         return response.json()
     except Exception as e:
         print(f"Error sending message: {e}", file=sys.stderr)
+        return None
+
+
+def edit_message(chat_id, message_id, text, reply_markup=None):
+    """
+    Edit an existing message (used for button callbacks).
+    
+    Args:
+        chat_id: The chat ID
+        message_id: The message ID to edit
+        text: New message text
+        reply_markup: Optional inline keyboard markup (dict)
+    """
+    url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/editMessageText"
+    payload = {
+        'chat_id': chat_id,
+        'message_id': message_id,
+        'text': text,
+        'parse_mode': 'Markdown'
+    }
+    
+    if reply_markup:
+        payload['reply_markup'] = reply_markup
+    
+    try:
+        response = requests.post(url, json=payload, timeout=10)
+        return response.json()
+    except Exception as e:
+        print(f"Error editing message: {e}", file=sys.stderr)
         return None
 
 def process_update(update, get_bot_response):

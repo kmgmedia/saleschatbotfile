@@ -2,23 +2,35 @@
 Fallback keyword-based responses for the bot
 """
 
-# Try to import smart recommendation system
+# Try to import smart recommendation system and conversation handler
 try:
     from .product_catalog import get_smart_recommendation, detect_intent, recommend_products
+    from .conversation_handler import handle_user_input as handle_conversation
 except ImportError:
     from product_catalog import get_smart_recommendation, detect_intent, recommend_products
+    from conversation_handler import handle_user_input as handle_conversation
 
-def get_fallback_response(message):
-    """Simple keyword-based responses as fallback when OpenAI is unavailable"""
+def get_fallback_response(message, user_id=None):
+    """
+    Smart fallback responses using:
+    1. Natural conversation handler (product-focused with memory)
+    2. Intent detection for category browsing
+    3. Bundle recommendations
+    4. FAQ responses
+    
+    Args:
+        message: User's message text
+        user_id: User ID for conversation tracking and memory
+    """
     msg = message.lower()
     
-    # First, try smart intent detection for product recommendations
-    # This will catch fitness, audio, smart home, entertainment, productivity intents
-    intent = detect_intent(msg)
+    # Priority 1: Use natural conversation handler for product-specific discussions
+    # This maintains conversation context and gives human-like responses with memory
+    conversation_response = handle_conversation(message, user_id)
     
-    # If we detected a specific product intent, use smart recommendations
-    if intent in ['fitness', 'audio', 'power', 'smart_home', 'entertainment', 'productivity']:
-        return get_smart_recommendation(message)
+    # If conversation handler gave a meaningful response (not the generic greeting), use it
+    if conversation_response and not conversation_response.startswith("Hey there!"):
+        return conversation_response
     
     if any(word in msg for word in ['hi', 'hello', 'hey', 'start']):
         return "👋 Hello! I'm ShopBot from KMGMedia Design & Technologies! We now have 20 amazing tech products ranging from $29 to $850. Browse our Smart Home devices, Audio gear, Wearables, Cameras, and more! What interests you?"
