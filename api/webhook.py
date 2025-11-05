@@ -1,5 +1,5 @@
 """
-Vercel webhook endpoint for Telegram bot
+Vercel webhook endpoint for Telegram bot with OpenAI
 """
 import os
 import requests
@@ -9,14 +9,82 @@ import sys
 app = Flask(__name__)
 
 TELEGRAM_TOKEN = os.getenv('TELEGRAM_TOKEN', '')
+OPENAI_API_KEY = os.getenv('OPENAI_API_KEY', '')
 
 # Log for debugging
-print(f"Token loaded: {'Yes' if TELEGRAM_TOKEN else 'No'}", file=sys.stderr)
+print(f"Telegram Token loaded: {'Yes' if TELEGRAM_TOKEN else 'No'}", file=sys.stderr)
+print(f"OpenAI Key loaded: {'Yes' if OPENAI_API_KEY else 'No'}", file=sys.stderr)
 print(f"Token prefix: {TELEGRAM_TOKEN[:10]}..." if TELEGRAM_TOKEN else "No token", file=sys.stderr)
 
-# Simple keyword-based responses
+# OpenAI-powered response function
 def get_response(message):
-    """Get chatbot response based on keywords"""
+    """Get chatbot response using OpenAI API"""
+    
+    # If OpenAI key is not available, fall back to keyword responses
+    if not OPENAI_API_KEY:
+        print("WARNING: No OpenAI key - using fallback responses", file=sys.stderr)
+        return get_fallback_response(message)
+    
+    try:
+        # Call OpenAI API
+        prompt = f"""You are an enthusiastic and helpful eCommerce sales assistant named "ShopBot" from KMGMedia Design & Technologies. Your goal is to help customers find the perfect products and have an amazing shopping experience.
+
+Your personality:
+- Friendly, warm, and welcoming
+- Knowledgeable about products
+- Excited to help customers
+- Uses emojis occasionally to be engaging (but not excessively)
+- Always positive and solution-oriented
+
+Available Products:
+1. **Smartwatch X** - $59 - Tracks steps, sleep, and heart rate. Perfect for fitness enthusiasts!
+2. **Bluetooth Speaker Mini** - $29 - Crisp sound and 12h battery life. Great for music lovers on the go!
+3. **Wireless Earbuds Pro** - $79 - Noise cancelling and waterproof. Ideal for workouts and commuting!
+4. **Power Bank 20000mAh** - $300 - Fast-charging power bank with dual USB ports. Never run out of power!
+5. **Smart Home Hub** - $450 - Control all your smart devices from one hub. Make your home smarter!
+6. **4K Action Camera** - $850 - Capture stunning 4K videos with image stabilization. Perfect for adventures!
+
+Keep responses concise but informative (2-4 sentences). Be conversational and natural.
+
+User: {message}
+
+ShopBot:"""
+
+        headers = {
+            'Authorization': f'Bearer {OPENAI_API_KEY}',
+            'Content-Type': 'application/json'
+        }
+        
+        data = {
+            'model': 'gpt-3.5-turbo',
+            'messages': [
+                {'role': 'system', 'content': 'You are ShopBot, a helpful eCommerce sales assistant from KMGMedia Design & Technologies.'},
+                {'role': 'user', 'content': prompt}
+            ],
+            'temperature': 0.7,
+            'max_tokens': 200
+        }
+        
+        response = requests.post('https://api.openai.com/v1/chat/completions', 
+                                headers=headers, 
+                                json=data,
+                                timeout=10)
+        
+        if response.status_code == 200:
+            result = response.json()
+            reply = result['choices'][0]['message']['content'].strip()
+            print(f"OpenAI response successful", file=sys.stderr)
+            return reply
+        else:
+            print(f"OpenAI API error: {response.status_code} - {response.text}", file=sys.stderr)
+            return get_fallback_response(message)
+            
+    except Exception as e:
+        print(f"OpenAI exception: {str(e)}", file=sys.stderr)
+        return get_fallback_response(message)
+
+def get_fallback_response(message):
+    """Simple keyword-based responses as fallback"""
     msg = message.lower()
     
     if any(word in msg for word in ['hi', 'hello', 'hey', 'start']):
