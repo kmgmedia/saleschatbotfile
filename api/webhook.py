@@ -68,7 +68,7 @@ ShopBot:"""
         response = requests.post('https://api.openai.com/v1/chat/completions', 
                                 headers=headers, 
                                 json=data,
-                                timeout=10)
+                                timeout=25)
         
         if response.status_code == 200:
             result = response.json()
@@ -266,8 +266,14 @@ def webhook():
             if 'text' in message:
                 user_message = message['text']
                 print(f"User message: {user_message}", file=sys.stderr)
-                response_text = get_response(user_message)
-                print(f"Bot response: {response_text}", file=sys.stderr)
+                
+                # Get response (with fallback)
+                try:
+                    response_text = get_response(user_message)
+                    print(f"Bot response: {response_text}", file=sys.stderr)
+                except Exception as resp_err:
+                    print(f"ERROR getting response: {resp_err}", file=sys.stderr)
+                    response_text = "Sorry, I'm having trouble right now. Please try again!"
                 
                 # Send response via Telegram API
                 url = f'https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage'
@@ -275,7 +281,7 @@ def webhook():
                 print(f"Sending to Telegram...", file=sys.stderr)
                 
                 try:
-                    result = requests.post(url, json=payload)
+                    result = requests.post(url, json=payload, timeout=10)
                     print(f"Telegram API response: {result.status_code}", file=sys.stderr)
                     print(f"Response body: {result.text}", file=sys.stderr)
                     if result.status_code != 200:
