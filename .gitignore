@@ -1,8 +1,11 @@
 .vercel
 .env
 *.env
+.env*
 .env.local
 .env.production
+.env.check
+.env.vercel*
 __pycache__/
 *.pyc
 *.pyo
@@ -16,3 +19,4 @@ build/
 .vscode/
 .idea/
 *.log
+.env*.local
