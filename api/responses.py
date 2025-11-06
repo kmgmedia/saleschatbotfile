@@ -508,7 +508,7 @@ Which bundle interests you? 🎯"""
     
     # Priority 1: Use natural conversation handler for product-specific discussions
     # This maintains conversation context and gives human-like responses with memory
-    conversation_response = handle_conversation(message, user_id)
+    conversation_response = handle_conversation(user_id, message)
     
     # If conversation handler gave a meaningful response (not the generic greeting), use it
     if conversation_response and not conversation_response.startswith("Hey there!"):
