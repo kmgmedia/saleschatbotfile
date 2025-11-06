@@ -24,7 +24,416 @@ def get_fallback_response(message, user_id=None):
     """
     msg = message.lower()
     
-    # Handle bundle requests first (before conversation handler)
+    # Handle "show all products" / "view all" requests
+    if any(phrase in msg for phrase in ['all products', 'show all', 'full catalog', 'everything you have', 'complete list', 'view all']):
+        return """🛍️ **COMPLETE PRODUCT CATALOG** (21 Products)
+
+💡 **SMART HOME** ($49-$450)
+1. Smart LED Strip Lights - $49
+2. Smart Light Bulb 4-Pack - $99
+3. Smart Doorbell Cam - $190
+4. Smart Security Camera - $210
+5. Smart Thermostat - $220
+6. Smart Home Hub - $450
+
+🎧 **AUDIO** ($29-$180)
+7. Bluetooth Speaker Mini - $29
+8. Wireless Earbuds Pro - $79
+9. Noise-Cancelling Headphones - $180
+
+⌚ **WEARABLES** ($35-$120)
+10. Fitness Tracker Band - $35
+11. Smartwatch X - $59
+12. Fitness Band Pro - $120
+
+🔋 **POWER & CHARGING** ($45-$300)
+13. Wireless Charging Pad - $45
+14. Portable Solar Charger - $99
+15. Power Bank 20000mAh - $300
+
+💻 **PRODUCTIVITY** ($75-$89)
+16. Laptop Stand Pro - $75
+17. Foldable Wireless Keyboard - $89
+
+📹 **CAMERAS & ENTERTAINMENT** ($250-$850)
+18. Mini Drone X2 - $250
+19. Portable Projector Pro - $320
+20. VR Headset Max - $480
+21. 4K Action Camera - $850
+
+💰 **Price Range:** $29 - $850
+✅ Free shipping on orders over $100
+✅ 30-day money-back guarantee on all items
+
+Which product interests you? Or ask me for the cheapest in any category! 😊"""
+    
+    # Handle "cheapest" requests
+    if any(word in msg for word in ['cheapest', 'cheap', 'affordable', 'budget', 'least expensive', 'lowest price']):
+        # Determine which category they're asking about
+        if 'audio' in msg:
+            return """💰 **CHEAPEST AUDIO PRODUCT:**
+
+🔊 **Bluetooth Speaker Mini - $29**
+Amazing sound quality with 12-hour battery life. Perfect for any occasion! Compact and powerful.
+
+**Why it's a great deal:**
+✅ Incredible value at just $29
+✅ 12-hour battery life
+✅ Crisp sound with deep bass
+✅ Portable and lightweight
+✅ Connects in seconds
+
+Want to order? Contact @Store_help_bot! 🛍️"""
+        
+        elif 'smart home' in msg or 'home' in msg:
+            return """💰 **CHEAPEST SMART HOME PRODUCT:**
+
+💡 **Smart LED Strip Lights - $49**
+16 million colors, voice control, music sync, and app-controlled mood lighting. Transform any room!
+
+**Why it's a great deal:**
+✅ Only $49 for smart lighting
+✅ 16 million color options
+✅ Works with Alexa & Google Home
+✅ Easy installation
+✅ Energy-efficient LEDs
+
+Want to order? Contact @Store_help_bot! 🛍️"""
+        
+        elif 'wearable' in msg or 'fitness' in msg or 'tracker' in msg:
+            return """💰 **CHEAPEST WEARABLE:**
+
+💪 **Fitness Tracker Band - $35**
+Lightweight, waterproof, tracks calories & heart rate. For everyday health monitoring!
+
+**Why it's a great deal:**
+✅ Just $35 for full fitness tracking
+✅ Waterproof design
+✅ Heart rate monitoring
+✅ Sleep tracking
+✅ 7-day battery life
+
+Want to order? Contact @Store_help_bot! 🛍️"""
+        
+        elif 'power' in msg or 'charging' in msg or 'charger' in msg:
+            return """💰 **CHEAPEST POWER PRODUCT:**
+
+⚡ **Wireless Charging Pad - $45**
+Sleek and fast Qi-certified charger for all devices. Goodbye cables!
+
+**Why it's a great deal:**
+✅ Only $45 for wireless convenience
+✅ 15W fast charging
+✅ Works with all Qi devices
+✅ LED indicator
+✅ Auto-shutoff protection
+
+Want to order? Contact @Store_help_bot! 🛍️"""
+        
+        elif 'productivity' in msg or 'work' in msg or 'office' in msg:
+            return """💰 **CHEAPEST PRODUCTIVITY ITEM:**
+
+💻 **Laptop Stand Pro - $75**
+Ergonomic aluminum stand for better posture and airflow. Work comfortably all day!
+
+**Why it's a great deal:**
+✅ Best value at $75
+✅ 6-level height adjustment
+✅ Premium aluminum build
+✅ Better posture = better health
+✅ Improved laptop cooling
+
+Want to order? Contact @Store_help_bot! 🛍️"""
+        
+        elif any(word in msg for word in ['camera', 'entertainment', 'vr', 'drone', 'projector']):
+            return """💰 **CHEAPEST ENTERTAINMENT PRODUCT:**
+
+🚁 **Mini Drone X2 - $250**
+Compact drone with HD camera, gesture control, and obstacle avoidance. Perfect for aerial photography!
+
+**Why it's a great deal:**
+✅ Entry-level price at $250
+✅ HD camera included
+✅ Gesture control
+✅ Obstacle avoidance
+✅ Foldable & portable
+
+Want to order? Contact @Store_help_bot! 🛍️"""
+        
+        else:
+            # General cheapest overall
+            return """💰 **OUR CHEAPEST PRODUCTS:**
+
+🥇 **BEST VALUE PICKS:**
+
+🔊 **Bluetooth Speaker Mini - $29**
+Amazing sound, 12-hour battery, perfect for parties!
+
+💪 **Fitness Tracker Band - $35**
+Full fitness tracking, waterproof, 7-day battery!
+
+⚡ **Wireless Charging Pad - $45**
+Fast wireless charging, works with all Qi devices!
+
+💡 **Smart LED Strip Lights - $49**
+16M colors, voice control, transform any room!
+
+⌚ **Smartwatch X - $59**
+Tracks steps, sleep, heart rate with 5-day battery!
+
+---
+
+**Or browse by category:**
+• Audio (from $29)
+• Smart Home (from $49)
+• Wearables (from $35)
+• Power & Charging (from $45)
+
+Which interests you? 🎯"""
+    
+    # Handle comparison requests
+    if any(word in msg for word in ['compare', 'vs', 'versus', 'difference between']):
+        # Specific product comparisons
+        if ('smartwatch' in msg or 'watch' in msg) and ('fitness' in msg or 'tracker' in msg or 'band' in msg):
+            return """⚖️ **COMPARISON: Smartwatch X vs Fitness Tracker Band**
+
+⌚ **Smartwatch X - $59**
+✅ OLED display (bright & colorful)
+✅ Notifications from phone
+✅ Music control
+✅ 5-day battery life
+✅ Steps, sleep, heart rate tracking
+❌ Not GPS-enabled
+
+💪 **Fitness Tracker Band - $35**
+✅ Super lightweight
+✅ 7-day battery life
+✅ Waterproof design
+✅ Heart rate & calorie tracking
+✅ Sleep analysis
+❌ No display (LED indicators only)
+❌ No notifications
+
+**💡 RECOMMENDATION:**
+• Want notifications & a screen? → **Smartwatch X**
+• Want ultra-light & long battery? → **Fitness Tracker Band**
+• Best value? → **Fitness Tracker Band** ($24 cheaper!)
+
+Which one fits your needs? 🎯"""
+        
+        elif ('earbuds' in msg or 'earbud' in msg) and ('headphone' in msg):
+            return """⚖️ **COMPARISON: Wireless Earbuds Pro vs Noise-Cancelling Headphones**
+
+🎧 **Wireless Earbuds Pro - $79**
+✅ Compact & portable
+✅ Waterproof (perfect for workouts)
+✅ 24-hour total playtime (with case)
+✅ Noise cancelling
+✅ Great for commuting
+❌ Smaller drivers = less bass
+
+🎧 **Noise-Cancelling Headphones - $180**
+✅ Premium sound quality
+✅ Superior noise cancellation
+✅ 30-hour battery life
+✅ Extreme comfort for long use
+✅ Deep, powerful bass
+❌ Bulkier (not for workouts)
+
+**💡 RECOMMENDATION:**
+• Workouts & portability? → **Wireless Earbuds Pro**
+• Studio sound & long sessions? → **Noise-Cancelling Headphones**
+• Best value? → **Wireless Earbuds Pro** ($101 cheaper!)
+
+Which suits your lifestyle? 🎯"""
+        
+        elif ('speaker' in msg and 'earbuds' in msg) or ('speaker' in msg and 'headphone' in msg):
+            return """⚖️ **AUDIO PRODUCT COMPARISON**
+
+🔊 **Bluetooth Speaker Mini - $29**
+✅ Loudest option (fills a room)
+✅ 12-hour battery
+✅ Great for parties & groups
+✅ Deep bass
+❌ Not private listening
+
+🎧 **Wireless Earbuds Pro - $79**
+✅ Personal listening
+✅ Noise cancelling
+✅ Waterproof
+✅ Perfect for gym/commute
+❌ Not for sharing
+
+🎧 **Noise-Cancelling Headphones - $180**
+✅ Best sound quality
+✅ Superior comfort
+✅ 30-hour battery
+✅ Pro-level audio
+❌ Most expensive
+
+**💡 RECOMMENDATION:**
+• Parties & outdoor use? → **Speaker Mini**
+• Active lifestyle? → **Wireless Earbuds Pro**
+• Audiophile quality? → **Noise-Cancelling Headphones**
+
+What's your main use case? 🎯"""
+        
+        elif 'power bank' in msg and ('solar' in msg or 'wireless' in msg):
+            return """⚖️ **POWER SOLUTIONS COMPARISON**
+
+🔋 **Power Bank 20000mAh - $300**
+✅ Massive 20000mAh capacity
+✅ Charge phone 4+ times
+✅ Dual USB ports
+✅ Fast charging
+❌ Needs wall outlet to recharge
+
+☀️ **Portable Solar Charger - $99**
+✅ Eco-friendly (solar powered)
+✅ Never needs wall outlet
+✅ Dual USB ports
+✅ Weather-resistant
+❌ Slower charging
+❌ Needs sunlight
+
+⚡ **Wireless Charging Pad - $45**
+✅ Cable-free convenience
+✅ Fast 15W charging
+✅ Sleek design
+❌ Needs wall outlet
+❌ Only charges one device
+
+**💡 RECOMMENDATION:**
+• Travel & power outages? → **Power Bank 20000mAh**
+• Camping & outdoor adventures? → **Solar Charger**
+• Daily home/office use? → **Wireless Charging Pad**
+
+What's your primary need? 🎯"""
+        
+        elif ('vr' in msg or 'headset' in msg) and ('projector' in msg):
+            return """⚖️ **COMPARISON: VR Headset Max vs Portable Projector Pro**
+
+🥽 **VR Headset Max - $480**
+✅ Immersive 4K display
+✅ Spatial audio
+✅ Gaming & virtual experiences
+✅ Wireless freedom
+✅ Solo entertainment
+❌ One person at a time
+
+📽️ **Portable Projector Pro - $320**
+✅ 120-inch display
+✅ Share with family/friends
+✅ Portable (fits in pocket)
+✅ HDMI + wireless casting
+✅ Great for movies & presentations
+❌ Needs dark room for best quality
+
+**� RECOMMENDATION:**
+• Gaming & VR experiences? → **VR Headset Max**
+• Movies with family/friends? → **Portable Projector Pro**
+• Best value? → **Projector** ($160 cheaper!)
+
+What's your entertainment style? 🎯"""
+        
+        elif ('drone' in msg) and ('camera' in msg or 'action' in msg):
+            return """⚖️ **COMPARISON: Mini Drone X2 vs 4K Action Camera**
+
+🚁 **Mini Drone X2 - $250**
+✅ Aerial photography
+✅ HD camera with gesture control
+✅ Obstacle avoidance
+✅ Foldable & portable
+✅ Unique perspectives
+❌ Limited by battery (20 min flight)
+❌ Restricted areas/regulations
+
+📹 **4K Action Camera - $850**
+✅ Professional 4K video
+✅ Waterproof to 30m
+✅ Image stabilization
+✅ Longer recording time
+✅ Extreme sports ready
+❌ No aerial shots
+
+**💡 RECOMMENDATION:**
+• Aerial content creation? → **Mini Drone**
+• Action sports & underwater? → **4K Action Camera**
+• Best value? → **Drone** ($600 cheaper!)
+
+What type of content do you create? 🎯"""
+        
+        elif ('laptop stand' in msg) and ('keyboard' in msg):
+            return """⚖️ **COMPARISON: Laptop Stand Pro vs Foldable Wireless Keyboard**
+
+💻 **Laptop Stand Pro - $75**
+✅ Ergonomic positioning
+✅ Better posture
+✅ Improved laptop cooling
+✅ 6-level adjustment
+✅ Reduces neck strain
+❌ Doesn't add typing functionality
+
+⌨️ **Foldable Wireless Keyboard - $89**
+✅ Full-size typing
+✅ Portable (folds to pocket size)
+✅ Bluetooth connectivity
+✅ Works with phone/tablet/laptop
+✅ Great for travel
+❌ Doesn't improve posture
+
+**💡 RECOMMENDATION:**
+• Stationary desk setup? → **Laptop Stand**
+• Mobile worker/traveler? → **Wireless Keyboard**
+• Best combo? → **Get both for $144** (Save $20!)
+
+What's your work style? 🎯"""
+        
+        elif ('doorbell' in msg or 'security' in msg) and ('camera' in msg):
+            return """⚖️ **COMPARISON: Smart Doorbell Cam vs Smart Security Camera**
+
+🔔 **Smart Doorbell Cam - $190**
+✅ Front door monitoring
+✅ Two-way talk to visitors
+✅ Motion detection
+✅ 1080p video
+✅ Cloud storage
+❌ Fixed at doorway only
+
+🎥 **Smart Security Camera - $210**
+✅ Flexible placement
+✅ Night vision
+✅ 1080p live feed
+✅ Motion alerts
+✅ Indoor/outdoor
+❌ No doorbell functionality
+
+**💡 RECOMMENDATION:**
+• Monitor front door? → **Smart Doorbell Cam**
+• Monitor yard/garage/rooms? → **Smart Security Camera**
+• Complete security? → **Get both for $400** (Save $50!)
+
+What area needs monitoring? 🎯"""
+        
+        else:
+            return """�🔍 **PRODUCT COMPARISON**
+
+I can help you compare any two products! Just tell me which ones:
+
+**Popular Comparisons:**
+• "Compare smartwatch and fitness band"
+• "Earbuds vs headphones"
+• "Power bank vs solar charger"
+• "Speaker vs earbuds"
+• "VR headset vs projector"
+• "Drone vs action camera"
+• "Doorbell cam vs security camera"
+
+Or pick any two products to compare! 
+
+Which products would you like me to compare? 🤔"""
+    
+    # Bundle request handling (keep existing code)
     if 'bundle' in msg and not any(word in msg for word in ['what is', 'tell me about', 'explain']):
         # Check which bundle they're asking about
         if 'audio' in msg:

@@ -45,8 +45,28 @@ def handle_button_callback(callback_data, user_id):
     if callback_data == "back":
         conversation_handler.reset_conversation(user_id)
         return {
-            "text": "🏠 Back to main menu. You can ask about Smartwatch, Earbuds, Camera, or any other gadget!",
-            "reply_markup": None
+            "text": "🏠 Back to main menu. What would you like to explore?\n\n• Browse categories\n• Ask about specific products\n• See cheapest options\n• Compare products\n\nJust let me know! 😊",
+            "reply_markup": get_product_list_keyboard()
+        }
+    
+    # Handle product selection from main menu
+    if callback_data.startswith("product:"):
+        product = callback_data.replace("product:", "")
+        # Update user's last product in memory
+        if user_id not in conversation_handler.user_conversations:
+            conversation_handler.user_conversations[user_id] = {
+                "last_product": None,
+                "conversation_history": []
+            }
+        conversation_handler.user_conversations[user_id]["last_product"] = product
+        
+        # Get product intro
+        intro = conversation_handler.get_random_intro(product)
+        response = conversation_handler.get_product_response(product)
+        
+        return {
+            "text": f"{intro}\n\n{response}",
+            "reply_markup": product_buttons(product)
         }
     
     # Parse action and product name

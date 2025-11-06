@@ -303,8 +303,16 @@ def continue_conversation(product_name, user_input):
         # Clear the current product context and defer to responses.py for bundle handling
         return None  # This will cause responses.py to handle it
     
+    # Cheapest request
+    if any(word in user_input_lower for word in ['cheapest', 'cheap', 'affordable', 'budget', 'least expensive', 'lowest price']):
+        return None  # Defer to responses.py for category-based cheapest handling
+    
+    # All products request
+    if any(word in user_input_lower for word in ['all products', 'show all', 'full catalog', 'everything', 'complete list']):
+        return None  # Defer to responses.py
+    
     # Price inquiry
-    if any(word in user_input_lower for word in ['price', 'cost', 'how much', 'expensive', 'cheap']):
+    if any(word in user_input_lower for word in ['price', 'cost', 'how much', 'expensive']):
         price = PRODUCT_PRICES.get(product_name, "N/A")
         return f"The {product_name} costs ${price}. 💰 Great value for what you get! Would you like to order one?"
     
@@ -313,8 +321,13 @@ def continue_conversation(product_name, user_input):
         return f"Awesome choice! 🎉 I can help you place an order for the {product_name}. Would you like it delivered or picked up? Contact our team at @Store_help_bot for immediate assistance!"
     
     # Comparison request
-    elif any(word in user_input_lower for word in ['compare', 'difference', 'better than', 'vs']):
-        return "Sure thing! Which product would you like me to compare it with? 🤔 I can help you decide!"
+    elif any(word in user_input_lower for word in ['compare', 'difference', 'better than', 'vs', 'versus']):
+        # Extract what they want to compare with
+        if user_input_lower.strip() in ['compare', 'comparison']:
+            return f"Sure! What product would you like to compare the {product_name} with? 🤔"
+        else:
+            # They mentioned another product - defer to responses.py for comparison
+            return None
     
     # Color options
     elif 'color' in user_input_lower or 'colour' in user_input_lower:
