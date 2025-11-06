@@ -37,7 +37,7 @@ def get_response(message, user_id=None):
 
 User: {message}
 
-ShopBot:"""
+Alex:"""
 
         headers = {
             'Authorization': f'Bearer {OPENAI_API_KEY}',

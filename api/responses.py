@@ -515,7 +515,7 @@ Which bundle interests you? 🎯"""
         return conversation_response
     
     if any(word in msg for word in ['hi', 'hello', 'hey', 'start']):
-        return "👋 Hello! I'm ShopBot from KMGMedia Design & Technologies! We now have 20 amazing tech products ranging from $29 to $850. Browse our Smart Home devices, Audio gear, Wearables, Cameras, and more! What interests you?"
+        return "👋 Hello! I'm Alex from KMGMedia Design & Technologies! With 7 years in tech sales, I've helped thousands find their perfect gadgets. We have 21 amazing products ranging from $29 to $850 - Smart Home, Audio, Wearables, Cameras, and more! What brings you in today?"
     
     if any(word in msg for word in ['product', 'sell', 'have', 'what', 'show', 'all', 'catalog', 'list']):
         return """🛍️ **Our Complete Product Catalog** (20 Items):

@@ -11,7 +11,7 @@ def get_landing_page():
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="refresh" content="15; url=https://t.me/Store_help_bot">
-        <title>ShopBot - AI Shopping Assistant</title>
+        <title>Alex - Your AI Tech Consultant</title>
         <style>
             * {
                 margin: 0;
@@ -111,10 +111,10 @@ def get_landing_page():
             
             <div class="status">
                 <span class="status-indicator"></span>
-                <strong>Online & Ready</strong>
+                <strong>Online & Ready to Help</strong>
             </div>
             
-            <a href="https://t.me/Store_help_bot" class="btn">💬 Open on Telegram </a>
+            <a href="https://t.me/Store_help_bot" class="btn">💬 Chat with Alex on Telegram</a>
             
             <div class="products">
                 <p><strong>Featured Products:</strong></p>

@@ -1,4 +1,6 @@
-# 🤖 ShopBot - Your AI Sales Assistant
+# 🤖 Alex - Your AI Tech Consultant
+
+**Meet Alex:** A 7-year veteran sales consultant powered by AI, helping customers find their perfect tech match through genuine conversation and expert guidance.
 
 > **A 24/7 Telegram chatbot that helps customers find and buy your products!**
 
@@ -103,4 +105,4 @@ Happy selling! 💰✨
 
 ---
 
-_Made with ❤️ for entrepreneurs_by Moruf Adebola
+\_Made with ❤️ for entrepreneurs_by Moruf Adebola
