@@ -955,8 +955,27 @@ Ready to upgrade your workspace? 🚀"""
 
 Where's your next adventure? 🌍"""
     
-    if 'thank' in msg or 'thanks' in msg:
-        return "😊 You're welcome! Happy to help! Let me know if you need anything else!"
+    # Thank you
+    if 'thank' in msg or 'thanks' in msg or 'thx' in msg or 'appreciate' in msg:
+        return "😊 You're very welcome! Happy to help! Let me know if you need anything else! 🛍️"
+    
+    # Goodbye/Farewell
+    if any(word in msg for word in ['bye', 'goodbye', 'see you', 'later', 'gotta go', 'gtg', 'talk later', 'cya']):
+        return "Goodbye! 👋 Thanks for visiting! Feel free to come back anytime you need help. Have a great day! 😊"
+    
+    # Help request
+    if msg.strip() in ['help', 'help me', 'i need help', 'can you help', 'assist me']:
+        return """I'm here to help! 😊 
+
+**I can assist you with:**
+• 🔍 Finding products (by category, use case, or price)
+• ⚖️ Comparing products
+• 💰 Finding the cheapest options
+• 📋 Showing product specs and prices
+• 🎁 Bundle deals and offers
+• 🛒 Purchase information
+
+Just ask me anything! What would you like to know? 🎯"""
     
     return """I'm here to help you find the perfect tech product! 🛍️
 

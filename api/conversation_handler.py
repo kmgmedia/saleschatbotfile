@@ -358,8 +358,20 @@ def continue_conversation(product_name, user_input):
         return "No worries! 😊 Is there anything else you'd like to know, or would you prefer to check out other products?"
     
     # Thank you
-    elif any(word in user_input_lower for word in ['thank', 'thanks', 'appreciate']):
+    elif any(word in user_input_lower for word in ['thank', 'thanks', 'appreciate', 'thx', 'ty']):
         return "You're very welcome! I'm here if you need any more help. Happy shopping! 🛍️✨"
+    
+    # Goodbye/Farewell
+    elif any(word in user_input_lower for word in ['bye', 'goodbye', 'see you', 'later', 'gotta go', 'gtg', 'talk later', 'cya']):
+        return "Goodbye! 👋 Thanks for visiting! Feel free to come back anytime you need help finding the perfect product. Have a great day! 😊"
+    
+    # Greetings (in case they greet mid-conversation)
+    elif any(word in user_input_lower for word in ['hi', 'hello', 'hey', 'good morning', 'good afternoon', 'good evening']) and len(user_input_lower.split()) <= 3:
+        return f"Hey there! 👋 We were just talking about the {product_name}. Would you like to know more about it, or explore something else?"
+    
+    # Help request
+    elif any(word in user_input_lower for word in ['help', 'assist', 'support', 'question']):
+        return "I'm here to help! 😊 You can ask me about:\n• Product prices and specs\n• Availability and shipping\n• Comparisons between products\n• Bundle deals\n\nWhat would you like to know?"
     
     # Default: give another product variation
     else:
@@ -390,8 +402,32 @@ def handle_user_input(user_input, user_id=None):
     
     user_memory = user_conversations[user_id]
     
+    # Handle common phrases first (before product detection)
+    user_input_lower = user_input.lower().strip()
+    
+    # Goodbye/Farewell
+    if any(word in user_input_lower for word in ['bye', 'goodbye', 'see you', 'later', 'gotta go', 'gtg', 'talk later', 'cya']) and len(user_input_lower.split()) <= 4:
+        return "Goodbye! 👋 Thanks for chatting! Come back anytime you need help finding the perfect gadget. Have a wonderful day! 😊"
+    
+    # Thank you
+    if any(word in user_input_lower for word in ['thank', 'thanks', 'appreciate', 'thx', 'ty']) and len(user_input_lower.split()) <= 5:
+        return "You're very welcome! 😊 I'm always here if you need anything else. Happy shopping! 🛍️✨"
+    
+    # Help request
+    if 'help' in user_input_lower and len(user_input_lower.split()) <= 3:
+        return """I'm here to help! 😊 
+
+I can assist you with:
+• Finding products by category or use case
+• Comparing products
+• Showing prices and specifications
+• Finding the cheapest options
+• Bundle deals and offers
+
+What would you like to explore? 🎯"""
+    
     # Memory-based recall: "show me again", "what was that", "tell me more"
-    if any(phrase in user_input.lower() for phrase in ['show me again', 'what was that', 'remind me', 'that one']):
+    if any(phrase in user_input_lower for phrase in ['show me again', 'what was that', 'remind me', 'that one']):
         if user_memory["last_product"]:
             product = user_memory["last_product"]
             return f"Sure! You were looking at the **{product}** earlier. {get_product_response(product)}"
