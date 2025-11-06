@@ -2,12 +2,10 @@
 Fallback keyword-based responses for the bot
 """
 
-# Try to import smart recommendation system and conversation handler
+# Import conversation handler
 try:
-    from .product_catalog import get_smart_recommendation, detect_intent, recommend_products
     from .conversation_handler import handle_user_input as handle_conversation
 except ImportError:
-    from product_catalog import get_smart_recommendation, detect_intent, recommend_products
     from conversation_handler import handle_user_input as handle_conversation
 
 def get_fallback_response(message, user_id=None):

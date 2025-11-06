@@ -2,23 +2,35 @@
 Test script for memory-based personalization and inline keyboard features
 """
 
-# Add api directory to path for imports
-import sys
-import os
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'api'))
-
-from conversation_handler import (
-    handle_user_input,
-    get_user_memory,
-    reset_conversation,
-    get_product_spec,
-    get_random_intro
-)
-from inline_keyboard import (
+# Import from api package
+from api.conversation_handler import handle_user_input, PRODUCT_SPECS
+from api.user_memory import get_user_state, clear_user_state
+from api.product_data import get_product_responses, get_product_spec
+from api.inline_keyboard import (
     product_buttons,
     handle_button_callback,
     get_product_list_keyboard
 )
+
+# Helper functions for testing
+def get_user_memory(user_id):
+    """Get user memory state"""
+    state = get_user_state(user_id)
+    if state:
+        return state
+    return {"last_product": None, "conversation_history": []}
+
+def reset_conversation(user_id):
+    """Reset user conversation"""
+    clear_user_state(user_id)
+
+def get_random_intro(product):
+    """Get a random product introduction"""
+    responses = get_product_responses(product)
+    if responses:
+        import random
+        return random.choice(responses)
+    return f"Check out the {product}!"
 
 def test_memory_recall():
     """Test memory-based conversation recall"""
@@ -30,12 +42,12 @@ def test_memory_recall():
     
     # User asks about smartwatch
     print("\n👤 User (12345): Tell me about the smartwatch")
-    response = handle_user_input("Tell me about the smartwatch", user_id)
+    response = handle_user_input(user_id, "Tell me about the smartwatch")
     print(f"🤖 Bot: {response}\n")
     
     # User asks about something else but then wants to recall
     print("👤 User (12345): What was that product again?")
-    response = handle_user_input("What was that product again?", user_id)
+    response = handle_user_input(user_id, "What was that product again?")
     print(f"🤖 Bot: {response}\n")
     
     # Check memory
@@ -55,22 +67,22 @@ def test_multi_user_memory():
     
     # User 1 asks about smartwatch
     print("\n👤 User 1: I want a smartwatch")
-    response1 = handle_user_input("I want a smartwatch", user1)
+    response1 = handle_user_input(user1, "I want a smartwatch")
     print(f"🤖 Bot to User 1: {response1[:100]}...\n")
     
     # User 2 asks about earbuds
     print("👤 User 2: Tell me about earbuds")
-    response2 = handle_user_input("Tell me about earbuds", user2)
+    response2 = handle_user_input(user2, "Tell me about earbuds")
     print(f"🤖 Bot to User 2: {response2[:100]}...\n")
     
     # User 1 asks "how much" - should reference smartwatch
     print("👤 User 1: How much does it cost?")
-    response1_price = handle_user_input("How much does it cost?", user1)
+    response1_price = handle_user_input(user1, "How much does it cost?")
     print(f"🤖 Bot to User 1: {response1_price}\n")
     
     # User 2 asks "how much" - should reference earbuds
     print("👤 User 2: How much?")
-    response2_price = handle_user_input("How much?", user2)
+    response2_price = handle_user_input(user2, "How much?")
     print(f"🤖 Bot to User 2: {response2_price}\n")
     
     # Verify memories are separate
@@ -114,7 +126,7 @@ def test_button_callbacks():
     product = "Wireless Earbuds Pro"
     
     # First, set up conversation context
-    handle_user_input(f"Tell me about {product}", user_id)
+    handle_user_input(user_id, f"Tell me about {product}")
     
     # Test "See Price" button
     print(f"\n🖱️ User clicks: '💰 See Price' on {product}")
@@ -195,7 +207,7 @@ def test_conversation_flow_with_memory():
     
     for msg in messages:
         print(f"👤 User: {msg}")
-        response = handle_user_input(msg, user_id)
+        response = handle_user_input(user_id, msg)
         print(f"🤖 Bot: {response}\n")
     
     # Show final memory state
