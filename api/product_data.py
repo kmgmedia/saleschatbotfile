@@ -282,6 +282,10 @@ def detect_product(user_input):
     if any(word in user_input_lower for word in ['bundle', 'category', 'categories', 'all products', 'catalog', 'list']):
         return None
     
+    # Exclude "cheapest" requests - let responses.py handle those
+    if any(word in user_input_lower for word in ['cheapest', 'cheap', 'affordable', 'budget', 'least expensive', 'lowest price']):
+        return None
+    
     # Check for exact matches first (longer phrases)
     for keyword in sorted(PRODUCT_KEYWORDS.keys(), key=len, reverse=True):
         if keyword in user_input_lower:

@@ -67,8 +67,15 @@ Which product interests you? Or ask me for the cheapest in any category! 😊"""
     
     # Handle "cheapest" requests
     if any(word in msg for word in ['cheapest', 'cheap', 'affordable', 'budget', 'least expensive', 'lowest price']):
+        # Import user memory to set the product context
+        from .user_memory import set_last_product
+        
         # Determine which category they're asking about
         if 'audio' in msg:
+            # Set the product in memory so buttons work correctly
+            if user_id:
+                set_last_product(user_id, "Bluetooth Speaker Mini")
+            
             return """💰 **CHEAPEST AUDIO PRODUCT:**
 
 🔊 **Bluetooth Speaker Mini - $29**
@@ -84,6 +91,10 @@ Amazing sound quality with 12-hour battery life. Perfect for any occasion! Compa
 Want to order? Contact @Store_help_bot! 🛍️"""
         
         elif 'smart home' in msg or 'home' in msg:
+            # Set the product in memory so buttons work correctly
+            if user_id:
+                set_last_product(user_id, "Smart LED Strip Lights")
+            
             return """💰 **CHEAPEST SMART HOME PRODUCT:**
 
 💡 **Smart LED Strip Lights - $49**
@@ -99,6 +110,10 @@ Want to order? Contact @Store_help_bot! 🛍️"""
 Want to order? Contact @Store_help_bot! 🛍️"""
         
         elif 'wearable' in msg or 'fitness' in msg or 'tracker' in msg:
+            # Set the product in memory so buttons work correctly
+            if user_id:
+                set_last_product(user_id, "Fitness Tracker Band")
+            
             return """💰 **CHEAPEST WEARABLE:**
 
 💪 **Fitness Tracker Band - $35**
@@ -114,6 +129,10 @@ Lightweight, waterproof, tracks calories & heart rate. For everyday health monit
 Want to order? Contact @Store_help_bot! 🛍️"""
         
         elif 'power' in msg or 'charging' in msg or 'charger' in msg:
+            # Set the product in memory so buttons work correctly
+            if user_id:
+                set_last_product(user_id, "Wireless Charging Pad")
+            
             return """💰 **CHEAPEST POWER PRODUCT:**
 
 ⚡ **Wireless Charging Pad - $45**
@@ -129,6 +148,10 @@ Sleek and fast Qi-certified charger for all devices. Goodbye cables!
 Want to order? Contact @Store_help_bot! 🛍️"""
         
         elif 'productivity' in msg or 'work' in msg or 'office' in msg:
+            # Set the product in memory so buttons work correctly
+            if user_id:
+                set_last_product(user_id, "Laptop Stand Pro")
+            
             return """💰 **CHEAPEST PRODUCTIVITY ITEM:**
 
 💻 **Laptop Stand Pro - $75**
@@ -144,6 +167,10 @@ Ergonomic aluminum stand for better posture and airflow. Work comfortably all da
 Want to order? Contact @Store_help_bot! 🛍️"""
         
         elif any(word in msg for word in ['camera', 'entertainment', 'vr', 'drone', 'projector']):
+            # Set the product in memory so buttons work correctly
+            if user_id:
+                set_last_product(user_id, "Mini Drone X2")
+            
             return """💰 **CHEAPEST ENTERTAINMENT PRODUCT:**
 
 🚁 **Mini Drone X2 - $250**

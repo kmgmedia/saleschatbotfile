@@ -114,14 +114,22 @@ What brings you in today? Let's find something awesome for you! 🎯"""
                     
                     # Check if response mentions a specific product - if so, add buttons
                     from .conversation_handler import detect_product
+                    from .user_memory import get_last_product
+                    
                     detected_product = detect_product(user_message)
                     
                     if detected_product:
-                        # Send with product buttons
+                        # Send with product buttons for detected product
                         send_message(chat_id, response_text, reply_markup=product_buttons(detected_product))
                     else:
-                        # Send without buttons
-                        send_message(chat_id, response_text)
+                        # Check if user has a product in memory (e.g., from cheapest request)
+                        last_product = get_last_product(user_id)
+                        if last_product and any(word in user_message.lower() for word in ['cheap', 'cheapest', 'affordable', 'budget']):
+                            # User asked for cheapest - show buttons for the cheapest product
+                            send_message(chat_id, response_text, reply_markup=product_buttons(last_product))
+                        else:
+                            # Send without buttons
+                            send_message(chat_id, response_text)
                         
                 except Exception as resp_err:
                     print(f"ERROR getting response: {resp_err}", file=sys.stderr)
