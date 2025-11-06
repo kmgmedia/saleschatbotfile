@@ -38,12 +38,19 @@ def handle_button_callback(callback_data, user_id):
     """
     try:
         from . import conversation_handler
+        from .product_data import PRODUCT_PRICES, get_product_spec
+        from .user_memory import set_last_product, user_conversations
     except ImportError:
         import conversation_handler
+        from product_data import PRODUCT_PRICES, get_product_spec
+        from user_memory import set_last_product, user_conversations
     
     # Back to products menu
     if callback_data == "back":
-        conversation_handler.reset_conversation(user_id)
+        # Clear user's last product
+        if user_id in user_conversations:
+            user_conversations[user_id]["last_product"] = None
+        
         return {
             "text": "🏠 Back to main menu. What would you like to explore?\n\n• Browse categories\n• Ask about specific products\n• See cheapest options\n• Compare products\n\nJust let me know! 😊",
             "reply_markup": get_product_list_keyboard()
@@ -53,19 +60,13 @@ def handle_button_callback(callback_data, user_id):
     if callback_data.startswith("product:"):
         product = callback_data.replace("product:", "")
         # Update user's last product in memory
-        if user_id not in conversation_handler.user_conversations:
-            conversation_handler.user_conversations[user_id] = {
-                "last_product": None,
-                "conversation_history": []
-            }
-        conversation_handler.user_conversations[user_id]["last_product"] = product
+        set_last_product(user_id, product)
         
-        # Get product intro
-        intro = conversation_handler.get_random_intro(product)
+        # Get product response
         response = conversation_handler.get_product_response(product)
         
         return {
-            "text": f"{intro}\n\n{response}",
+            "text": response,
             "reply_markup": product_buttons(product)
         }
     
@@ -76,28 +77,34 @@ def handle_button_callback(callback_data, user_id):
         return {"text": "Oops! Something went wrong. Please try again.", "reply_markup": None}
     
     # Update user's last product in memory
-    if user_id not in conversation_handler.user_conversations:
-        conversation_handler.user_conversations[user_id] = {
-            "last_product": None,
-            "conversation_history": []
-        }
-    
-    conversation_handler.user_conversations[user_id]["last_product"] = product
+    set_last_product(user_id, product)
     
     # Handle different button actions
     if action == "price":
-        price = conversation_handler.PRODUCT_PRICES.get(product, "N/A")
-        return {
-            "text": f"💰 The {product} costs ${price:,.2f}.\n\nGreat value for what you get! Want me to help you buy it?",
-            "reply_markup": product_buttons(product)
-        }
+        price = PRODUCT_PRICES.get(product, 0)
+        if price:
+            return {
+                "text": f"💰 The {product} costs ${price:,.2f}.\n\nGreat value for what you get! Want me to help you buy it?",
+                "reply_markup": product_buttons(product)
+            }
+        else:
+            return {
+                "text": f"I couldn't find the price for {product}. Let me help you with another product!",
+                "reply_markup": get_product_list_keyboard()
+            }
     
     elif action == "specs":
-        spec = conversation_handler.get_product_spec(product)
-        return {
-            "text": f"📋 **Specs for {product}:**\n\n{spec}",
-            "reply_markup": product_buttons(product)
-        }
+        spec = get_product_spec(product)
+        if spec:
+            return {
+                "text": f"📋 **Specs for {product}:**\n\n{spec}",
+                "reply_markup": product_buttons(product)
+            }
+        else:
+            return {
+                "text": f"I couldn't find the specs for {product}. Let me help you with another product!",
+                "reply_markup": get_product_list_keyboard()
+            }
     
     elif action == "buy":
         return {

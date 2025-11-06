@@ -32,7 +32,11 @@ def continue_conversation(product_name, user_input):
     """Continue conversation about the current product based on user intent"""
     user_input_lower = user_input.lower()
     
-    # Check for emotional states first
+    # Check for greetings FIRST - this resets context
+    if any(word in user_input_lower for word in ['hi', 'hello', 'hey', 'greetings', 'good morning', 'good afternoon', 'good evening']):
+        return None  # Defer to responses.py for fresh greeting
+    
+    # Check for emotional states
     emotion = detect_emotion(user_input)
     if emotion:
         price = get_product_price(product_name)
@@ -47,7 +51,7 @@ def continue_conversation(product_name, user_input):
         return None
     
     # All products request - defer to responses.py
-    if any(word in user_input_lower for word in ['all products', 'show all', 'full catalog', 'everything', 'complete list']):
+    if any(word in user_input_lower for word in ['all products', 'show all', 'full catalog', 'everything', 'complete list', 'what else', 'other products', 'more products']):
         return None
     
     # Price inquiry
@@ -118,9 +122,22 @@ def continue_conversation(product_name, user_input):
 
 What are you looking for today? I'm all ears! 😊"""
     
-    # Default: Keep talking about the current product
+    # If the message seems like a general statement, NOT a specific product question
+    # Don't keep repeating product info - defer to general handler
+    elif len(user_input.split()) <= 2:  # Short messages like "hello", "ok", "nice", etc.
+        # Don't repeat product info for short vague messages
+        return None
+    
+    # Default: Only repeat product info if it seems like they're still interested
     else:
-        return get_product_response(product_name)
+        # Check if the message has product-related keywords
+        product_keywords = ['tell me more', 'interested', 'cool', 'nice', 'awesome', 'good', 'great', 
+                           'love it', 'like it', 'perfect', 'exactly', 'that works', 'sounds good']
+        if any(keyword in user_input_lower for keyword in product_keywords):
+            return get_product_response(product_name)
+        else:
+            # Vague message - don't repeat product info, let fallback handle it
+            return None
 
 
 def handle_user_input(user_id, user_input):
@@ -136,8 +153,17 @@ def handle_user_input(user_id, user_input):
     """
     user_input_lower = user_input.lower()
     
+    # Check for greetings - clear context for fresh start
+    if any(word in user_input_lower for word in ['hi', 'hello', 'hey', 'start']) and len(user_input.split()) <= 2:
+        # Clear context if they're just saying hi (not "hi, tell me about...")
+        from .user_memory import clear_user_state
+        clear_user_state(user_id)
+        return None  # Let responses.py handle the greeting
+    
     # Check for goodbye first
     if any(word in user_input_lower for word in ['bye', 'goodbye', 'see you', 'later', 'exit', 'quit']):
+        from .user_memory import clear_user_state
+        clear_user_state(user_id)
         return "Goodbye! 👋 It was great chatting with you. I'm Alex, and I'm here whenever you need help finding the perfect tech! Have an awesome day! 😊"
     
     # Check for help
@@ -178,6 +204,11 @@ What are you looking for today? I'm all ears! 😊"""
         response = continue_conversation(last_product, user_input)
         if response:
             return response
+        # If continue_conversation returned None, clear context and defer to responses.py
+        else:
+            from .user_memory import clear_user_state
+            clear_user_state(user_id)
+            return None
     
     # No context - return None to let responses.py handle it
     return None
