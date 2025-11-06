@@ -92,31 +92,31 @@ def continue_conversation(product_name, user_input):
     
     # Thank you
     elif any(word in user_input_lower for word in ['thank', 'thanks', 'appreciate', 'thx', 'ty']):
-        return "You're very welcome! 😊 I'm here whenever you need help. Happy shopping! 🛒✨"
+        return "You're very welcome! 😊 That's what I'm here for. Happy to help anytime! 🛒✨"
     
     # Goodbye
     elif any(word in user_input_lower for word in ['bye', 'goodbye', 'see you', 'later', 'exit', 'quit']):
-        return "Goodbye! 👋 Thanks for chatting with me. Come back anytime you need help with tech products! Have a great day! 😊"
+        return "Goodbye! 👋 It was great chatting with you. I'm Alex, and I'm here whenever you need help finding the perfect tech! Have an awesome day! 😊"
     
     # Help request
     elif any(word in user_input_lower for word in ['help', 'what can you do', 'commands', 'options']):
-        return """I'm here to help you find the perfect tech products! 🎯
+        return """Hey! I'm Alex, your tech consultant with 7 years of experience helping people find perfect products! 🎯
 
-**Here's what I can do:**
-• 📱 Show you product details, specs, and prices
-• 💰 Find the cheapest items in any category
-• 🎁 Suggest bundle deals with big savings
-• 🔍 Compare products side-by-side
-• 🛒 Help you make a purchase
+**Here's how I can help you:**
+• 📱 Give you the inside scoop on product details, specs, and prices
+• 💰 Find the best deals and cheapest items in any category
+• 🎁 Hook you up with bundle deals (save up to 25%!)
+• 🔍 Compare products side-by-side so you make the right choice
+• 🛒 Guide you through the purchase process
 
-**Try asking:**
+**Try asking me:**
 • "Show me smartwatches"
 • "What's the cheapest fitness tracker?"
 • "Compare earbuds and headphones"
 • "Show me bundles"
 • "Tell me about the 4K camera"
 
-What would you like to explore? 😊"""
+What are you looking for today? I'm all ears! 😊"""
     
     # Default: Keep talking about the current product
     else:
@@ -138,31 +138,31 @@ def handle_user_input(user_id, user_input):
     
     # Check for goodbye first
     if any(word in user_input_lower for word in ['bye', 'goodbye', 'see you', 'later', 'exit', 'quit']):
-        return "Goodbye! 👋 Thanks for chatting with me. Come back anytime you need help with tech products! Have a great day! 😊"
+        return "Goodbye! 👋 It was great chatting with you. I'm Alex, and I'm here whenever you need help finding the perfect tech! Have an awesome day! 😊"
     
     # Check for help
     if any(word in user_input_lower for word in ['help', 'what can you do', 'commands', 'options']):
-        return """I'm here to help you find the perfect tech products! 🎯
+        return """Hey! I'm Alex, your tech consultant with 7 years of experience helping people find perfect products! 🎯
 
-**Here's what I can do:**
-• 📱 Show you product details, specs, and prices
-• 💰 Find the cheapest items in any category
-• 🎁 Suggest bundle deals with big savings
-• 🔍 Compare products side-by-side
-• 🛒 Help you make a purchase
+**Here's how I can help you:**
+• 📱 Give you the inside scoop on product details, specs, and prices
+• 💰 Find the best deals and cheapest items in any category
+• 🎁 Hook you up with bundle deals (save up to 25%!)
+• 🔍 Compare products side-by-side so you make the right choice
+• 🛒 Guide you through the purchase process
 
-**Try asking:**
+**Try asking me:**
 • "Show me smartwatches"
 • "What's the cheapest fitness tracker?"
 • "Compare earbuds and headphones"
 • "Show me bundles"
 • "Tell me about the 4K camera"
 
-What would you like to explore? 😊"""
+What are you looking for today? I'm all ears! 😊"""
     
     # Check for thank you
     if any(word in user_input_lower for word in ['thank', 'thanks', 'appreciate', 'thx', 'ty']):
-        return "You're very welcome! 😊 I'm here whenever you need help. Happy shopping! 🛒✨"
+        return "You're very welcome! 😊 That's what I'm here for. Happy to help anytime! 🛒✨"
     
     # Detect product mention
     detected_product = detect_product(user_input)

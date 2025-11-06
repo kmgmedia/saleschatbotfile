@@ -91,15 +91,17 @@ def webhook():
                 # Handle /start command with product keyboard
                 if user_message.startswith('/start'):
                     from .inline_keyboard import get_product_list_keyboard
-                    welcome_text = """👋 Hey there! I'm your TechStore Assistant.
+                    welcome_text = """👋 Hey! I'm Alex, your personal tech consultant here at KMGMedia Design & Technologies.
+
+With 7 years helping folks find their perfect gadgets, I'm here to make sure you get exactly what you need - not just what's on sale! 😊
 
 I can help you find the perfect gadget! Choose a product below or just tell me what you're looking for:
 
 • "Tell me about the smartwatch"
-• "Show me wireless earbuds"
+• "Show me wireless earbuds"  
 • "I want a fitness tracker"
 
-Let's find something awesome for you! 😊"""
+What brings you in today? Let's find something awesome for you! 🎯"""
                     
                     send_message(chat_id, welcome_text, reply_markup=get_product_list_keyboard())
                     return jsonify({'ok': True})
