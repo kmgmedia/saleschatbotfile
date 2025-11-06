@@ -24,6 +24,81 @@ def get_fallback_response(message, user_id=None):
     """
     msg = message.lower()
     
+    # Handle bundle requests first (before conversation handler)
+    if 'bundle' in msg and not any(word in msg for word in ['what is', 'tell me about', 'explain']):
+        # Check which bundle they're asking about
+        if 'audio' in msg:
+            return """🎁 **AUDIO BUNDLE** - Save $20!
+
+Get all 3 audio products for just **$268** (Regular $288)
+
+**What's Included:**
+🔊 Bluetooth Speaker Mini - $29
+🎧 Wireless Earbuds Pro - $79
+🎧 Noise-Cancelling Headphones - $180
+
+✅ Complete audio solution for every situation!
+✅ Save $20 instantly
+✅ Free shipping included
+✅ 30-day money-back guarantee
+
+Ready to order? Contact @Store_help_bot! 🛍️"""
+        
+        elif 'smart home' in msg:
+            return """🎁 **SMART HOME BUNDLES:**
+
+**💡 Lighting Starter - $148** (Save $25!)
+✅ Smart LED Strip Lights ($49)
+✅ Smart Light Bulb 4-Pack ($99)
+
+**🔒 Security Bundle - $400** (Save $50!)
+✅ Smart Doorbell Cam ($190)
+✅ Smart Security Camera ($210)
+
+**🏡 Complete Smart Home - $1,218** (Save $100!)
+✅ All 6 smart home products included!
+
+Which bundle interests you? Contact @Store_help_bot to order! 🏠"""
+        
+        elif 'fitness' in msg or 'wearable' in msg:
+            return """🎁 **FITNESS BUNDLE** - Save $15!
+
+Get both wearables for just **$79** (Regular $94)
+
+**What's Included:**
+💪 Fitness Tracker Band - $35
+⌚ Smartwatch X - $59
+
+✅ Complete fitness tracking solution!
+✅ Save $15 instantly
+✅ Free shipping included
+
+Ready to order? Contact @Store_help_bot! 💪"""
+        
+        else:
+            # General bundle inquiry
+            return """🎁 **AVAILABLE BUNDLES - SAVE BIG!**
+
+**🎧 Audio Bundle** - $268 (Save $20)
+All 3 audio products
+
+**💡 Smart Home Lighting** - $148 (Save $25)
+LED Strips + Smart Bulbs
+
+**🔒 Home Security** - $400 (Save $50)
+Doorbell Cam + Security Camera
+
+**💪 Fitness Bundle** - $79 (Save $15)
+Fitness Band + Smartwatch
+
+**🔋 Power Bundle** - $409 (Save $35)
+All power & charging solutions
+
+**💻 Workspace Bundle** - $144 (Save $20)
+Laptop Stand + Keyboard
+
+Which bundle interests you? 🎯"""
+    
     # Priority 1: Use natural conversation handler for product-specific discussions
     # This maintains conversation context and gives human-like responses with memory
     conversation_response = handle_conversation(message, user_id)

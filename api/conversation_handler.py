@@ -272,7 +272,11 @@ PRODUCT_KEYWORDS = {
 
 def detect_product(user_input):
     """Detect which product the user is asking about"""
-    user_input_lower = user_input.lower()
+    user_input_lower = user_input.lower().strip()
+    
+    # Exclude bundle/category requests from product detection
+    if any(word in user_input_lower for word in ['bundle', 'category', 'categories', 'all products', 'catalog', 'list']):
+        return None
     
     # Check for exact matches first (longer phrases)
     for keyword in sorted(PRODUCT_KEYWORDS.keys(), key=len, reverse=True):
@@ -293,6 +297,11 @@ def get_product_response(product_name):
 def continue_conversation(product_name, user_input):
     """Continue conversation about the current product based on user intent"""
     user_input_lower = user_input.lower()
+    
+    # Bundle request
+    if 'bundle' in user_input_lower:
+        # Clear the current product context and defer to responses.py for bundle handling
+        return None  # This will cause responses.py to handle it
     
     # Price inquiry
     if any(word in user_input_lower for word in ['price', 'cost', 'how much', 'expensive', 'cheap']):
@@ -395,7 +404,10 @@ def handle_user_input(user_input, user_id=None):
     
     # Continue talking about the current product
     if user_memory["last_product"]:
-        return continue_conversation(user_memory["last_product"], user_input)
+        continued_response = continue_conversation(user_memory["last_product"], user_input)
+        if continued_response:  # Only return if there's a valid response
+            return continued_response
+        # If None, fall through to generic greeting (responses.py will handle it)
     
     # No product context yet - ask what they're looking for
     return """Hey there! 👋 What are you shopping for today? 
