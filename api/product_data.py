@@ -3,6 +3,17 @@ Product Data Module
 Contains all product information: prices, specifications, keywords, and response variations
 """
 
+# Product images (uploaded to static folder or external URLs)
+PRODUCT_IMAGES = {
+    "Smart LED Strip Lights": [
+        "https://i.postimg.cc/mr8QbC8n/led-strip-1.jpg",
+        "https://i.postimg.cc/CxDgVPzQ/led-strip-2.jpg", 
+        "https://i.postimg.cc/Y9kD6SyS/led-strip-3.jpg",
+        "https://i.postimg.cc/m2Q1TRpK/led-strip-4.jpg"
+    ],
+    # Add more products as needed
+}
+
 # Product prices
 PRODUCT_PRICES = {
     "Smartwatch X": 59,
@@ -312,3 +323,9 @@ def get_product_spec(product_name):
 def get_product_responses(product_name):
     """Get all response variations for a specific product"""
     return PRODUCT_RESPONSES.get(product_name, [])
+
+
+def get_product_images(product_name):
+    """Get images for a specific product"""
+    return PRODUCT_IMAGES.get(product_name, [])
+

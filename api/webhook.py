@@ -10,7 +10,7 @@ from flask import Flask, request, jsonify
 # Import our modular components
 try:
     from .openai_handler import get_response
-    from .telegram_handler import send_message, edit_message, TELEGRAM_TOKEN
+    from .telegram_handler import send_message, send_photo, send_media_group, edit_message, TELEGRAM_TOKEN
     from .landing_page import get_landing_page
     from .inline_keyboard import handle_button_callback, product_buttons
     print("✅ Successfully imported modular components", file=sys.stderr)
@@ -18,7 +18,7 @@ except ImportError as e:
     print(f"⚠️ Import error: {e}, using inline functions", file=sys.stderr)
     # Fallback: import inline functions if modules don't work
     from openai_handler import get_response
-    from telegram_handler import send_message, edit_message, TELEGRAM_TOKEN
+    from telegram_handler import send_message, send_photo, send_media_group, edit_message, TELEGRAM_TOKEN
     from landing_page import get_landing_page
     from inline_keyboard import handle_button_callback, product_buttons
 
@@ -115,18 +115,61 @@ What brings you in today? Let's find something awesome for you! 🎯"""
                     # Check if response mentions a specific product - if so, add buttons
                     from .conversation_handler import detect_product
                     from .user_memory import get_last_product
+                    from .product_data import get_product_images, get_product_spec, get_product_price
                     
                     detected_product = detect_product(user_message)
                     
                     if detected_product:
-                        # Send with product buttons for detected product
-                        send_message(chat_id, response_text, reply_markup=product_buttons(detected_product))
+                        # Check if product has images
+                        product_images = get_product_images(detected_product)
+                        
+                        if product_images:
+                            # Send product images with details
+                            product_price = get_product_price(detected_product)
+                            product_spec = get_product_spec(detected_product)
+                            
+                            # Create detailed caption
+                            caption = f"*{detected_product}*\n\n"
+                            caption += f"💰 *Price:* ${product_price}\n\n"
+                            caption += f"📋 *Details:* {product_spec}\n\n"
+                            caption += f"{response_text}"
+                            
+                            # Send first image with caption and buttons
+                            send_photo(chat_id, product_images[0], caption=caption, reply_markup=product_buttons(detected_product))
+                            
+                            # Send remaining images as album if there are more
+                            if len(product_images) > 1:
+                                send_media_group(chat_id, product_images[1:])
+                        else:
+                            # No images, send text with product buttons
+                            send_message(chat_id, response_text, reply_markup=product_buttons(detected_product))
                     else:
                         # Check if user has a product in memory (e.g., from cheapest request)
                         last_product = get_last_product(user_id)
                         if last_product and any(word in user_message.lower() for word in ['cheap', 'cheapest', 'affordable', 'budget']):
-                            # User asked for cheapest - show buttons for the cheapest product
-                            send_message(chat_id, response_text, reply_markup=product_buttons(last_product))
+                            # User asked for cheapest - check if product has images
+                            product_images = get_product_images(last_product)
+                            
+                            if product_images:
+                                # Send product images with details
+                                product_price = get_product_price(last_product)
+                                product_spec = get_product_spec(last_product)
+                                
+                                # Create detailed caption
+                                caption = f"*{last_product}*\n\n"
+                                caption += f"💰 *Price:* ${product_price}\n\n"
+                                caption += f"📋 *Details:* {product_spec}\n\n"
+                                caption += f"{response_text}"
+                                
+                                # Send first image with caption and buttons
+                                send_photo(chat_id, product_images[0], caption=caption, reply_markup=product_buttons(last_product))
+                                
+                                # Send remaining images as album if there are more
+                                if len(product_images) > 1:
+                                    send_media_group(chat_id, product_images[1:])
+                            else:
+                                # No images, send with buttons for the cheapest product
+                                send_message(chat_id, response_text, reply_markup=product_buttons(last_product))
                         else:
                             # Send without buttons
                             send_message(chat_id, response_text)

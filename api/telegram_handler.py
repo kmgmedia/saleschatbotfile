@@ -34,6 +34,75 @@ def send_message(chat_id, text, reply_markup=None):
         return None
 
 
+def send_photo(chat_id, photo_url, caption=None, reply_markup=None):
+    """
+    Send a photo to a Telegram chat.
+    
+    Args:
+        chat_id: The chat ID to send to
+        photo_url: URL or file_id of the photo
+        caption: Optional caption text
+        reply_markup: Optional inline keyboard markup (dict)
+    """
+    url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendPhoto"
+    payload = {
+        'chat_id': chat_id,
+        'photo': photo_url,
+        'parse_mode': 'Markdown'
+    }
+    
+    if caption:
+        payload['caption'] = caption
+    
+    if reply_markup:
+        payload['reply_markup'] = reply_markup
+    
+    try:
+        response = requests.post(url, json=payload, timeout=10)
+        return response.json()
+    except Exception as e:
+        print(f"Error sending photo: {e}", file=sys.stderr)
+        return None
+
+
+def send_media_group(chat_id, media_list, caption=None):
+    """
+    Send multiple photos as a media group (album).
+    
+    Args:
+        chat_id: The chat ID to send to
+        media_list: List of photo URLs
+        caption: Optional caption for the first photo
+    """
+    url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMediaGroup"
+    
+    # Format media array
+    media = []
+    for i, photo_url in enumerate(media_list):
+        media_item = {
+            'type': 'photo',
+            'media': photo_url
+        }
+        # Add caption only to first photo
+        if i == 0 and caption:
+            media_item['caption'] = caption
+            media_item['parse_mode'] = 'Markdown'
+        media.append(media_item)
+    
+    payload = {
+        'chat_id': chat_id,
+        'media': media
+    }
+    
+    try:
+        response = requests.post(url, json=payload, timeout=15)
+        return response.json()
+    except Exception as e:
+        print(f"Error sending media group: {e}", file=sys.stderr)
+        return None
+
+
+
 def edit_message(chat_id, message_id, text, reply_markup=None):
     """
     Edit an existing message (used for button callbacks).
