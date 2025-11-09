@@ -85,5 +85,48 @@ PRODUCT_IMAGES = {
         "https://res.cloudinary.com/ds2h3iwys/image/upload/v1762706308/Sales%20Chatbot%20Images/For%20Telegram/Smart%20Doorbell%20Cam/_Image_90sopm90sopm90so_jbi60a.png"
     ],
     
-    # Add more products as you upload their images to Cloudinary
+    # CAMERAS & SECURITY
+    "4K Action Camera": [
+        "https://res.cloudinary.com/ds2h3iwys/image/upload/v1762707715/Sales%20Chatbot%20Images/For%20Telegram/4K%20Action%20Camera/_Image_17auct17auct17au_kyteqz.png",
+        "https://res.cloudinary.com/ds2h3iwys/image/upload/v1762707714/Sales%20Chatbot%20Images/For%20Telegram/4K%20Action%20Camera/_Image_c62flgc62flgc62f_iui0go.png",
+        "https://res.cloudinary.com/ds2h3iwys/image/upload/v1762707715/Sales%20Chatbot%20Images/For%20Telegram/4K%20Action%20Camera/_Image_3d7ypg3d7ypg3d7y_klcmnd.png"
+    ],
+    "Smart Security Camera": [
+        "https://res.cloudinary.com/ds2h3iwys/image/upload/v1762708645/Sales%20Chatbot%20Images/For%20Telegram/Smart%20Security%20Camera/_Image_ei65kbei65kbei65_sorz7m.png",
+        "https://res.cloudinary.com/ds2h3iwys/image/upload/v1762708648/Sales%20Chatbot%20Images/For%20Telegram/Smart%20Security%20Camera/_Image_jsrdd7jsrdd7jsrd_b1dpnu.png",
+        "https://res.cloudinary.com/ds2h3iwys/image/upload/v1762708653/Sales%20Chatbot%20Images/For%20Telegram/Smart%20Security%20Camera/_Image_wicje3wicje3wicj_ahpsop.png"
+    ],
+    
+    # ENTERTAINMENT
+    "Portable Projector Pro": [
+        "https://res.cloudinary.com/ds2h3iwys/image/upload/v1762710920/Sales%20Chatbot%20Images/For%20Telegram/Portable%20Projector%20Pro/_Image_egxezkegxezkegxe_3_wbw4kw.png",
+        "https://res.cloudinary.com/ds2h3iwys/image/upload/v1762710914/Sales%20Chatbot%20Images/For%20Telegram/Portable%20Projector%20Pro/_Image_egxezkegxezkegxe_2_evbccx.png",
+        "https://res.cloudinary.com/ds2h3iwys/image/upload/v1762710915/Sales%20Chatbot%20Images/For%20Telegram/Portable%20Projector%20Pro/_Image_egxezkegxezkegxe_1_hdqydg.png",
+        "https://res.cloudinary.com/ds2h3iwys/image/upload/v1762710916/Sales%20Chatbot%20Images/For%20Telegram/Portable%20Projector%20Pro/_Image_egxezkegxezkegxe_4_tdnm00.png"
+    ],
+    "VR Headset Max": [
+        "https://res.cloudinary.com/ds2h3iwys/image/upload/v1762711129/Sales%20Chatbot%20Images/For%20Telegram/VR%20Headset%20Max/_Image_z0pskzz0pskzz0ps_abcw9z.png",
+        "https://res.cloudinary.com/ds2h3iwys/image/upload/v1762711130/Sales%20Chatbot%20Images/For%20Telegram/VR%20Headset%20Max/_Image_z0pskzz0pskzz0ps_2_d6itzd.png",
+        "https://res.cloudinary.com/ds2h3iwys/image/upload/v1762711130/Sales%20Chatbot%20Images/For%20Telegram/VR%20Headset%20Max/_Image_z0pskzz0pskzz0ps_1_wvusfn.png",
+        "https://res.cloudinary.com/ds2h3iwys/image/upload/v1762711132/Sales%20Chatbot%20Images/For%20Telegram/VR%20Headset%20Max/_Image_z0pskzz0pskzz0ps_3_pfeijg.png"
+    ],
+    "Mini Drone X2": [
+        "https://res.cloudinary.com/ds2h3iwys/image/upload/v1762711383/Sales%20Chatbot%20Images/For%20Telegram/Mini%20Drone%20X2/_Image_vaxknivaxknivaxk_ol4f1d.png",
+        "https://res.cloudinary.com/ds2h3iwys/image/upload/v1762711381/Sales%20Chatbot%20Images/For%20Telegram/Mini%20Drone%20X2/_Image_vaxknivaxknivaxk_1_yffvh8.png",
+        "https://res.cloudinary.com/ds2h3iwys/image/upload/v1762711380/Sales%20Chatbot%20Images/For%20Telegram/Mini%20Drone%20X2/_Image_vaxknivaxknivaxk_3_libbf3.png",
+        "https://res.cloudinary.com/ds2h3iwys/image/upload/v1762711382/Sales%20Chatbot%20Images/For%20Telegram/Mini%20Drone%20X2/_Image_vaxknivaxknivaxk_4_tqfcjz.png"
+    ],
+    
+    # OFFICE & PRODUCTIVITY
+    "Laptop Stand Pro": [
+        "https://res.cloudinary.com/ds2h3iwys/image/upload/v1762711672/Sales%20Chatbot%20Images/For%20Telegram/Laptop%20Stand%20Pro/_Image_kw6a0gkw6a0gkw6a_tnm83s.png",
+        "https://res.cloudinary.com/ds2h3iwys/image/upload/v1762711668/Sales%20Chatbot%20Images/For%20Telegram/Laptop%20Stand%20Pro/_Image_kw6a0gkw6a0gkw6a_1_bmy0fs.png",
+        "https://res.cloudinary.com/ds2h3iwys/image/upload/v1762711673/Sales%20Chatbot%20Images/For%20Telegram/Laptop%20Stand%20Pro/_Image_3iho9g3iho9g3iho_d0wak4.png"
+    ],
+    "Foldable Wireless Keyboard": [
+        "https://res.cloudinary.com/ds2h3iwys/image/upload/v1762712606/Sales%20Chatbot%20Images/For%20Telegram/Foldable%20Wireless%20Keyboard/_Image_8xxyty8xxyty8xxy_xnq3jr.png",
+        "https://res.cloudinary.com/ds2h3iwys/image/upload/v1762712599/Sales%20Chatbot%20Images/For%20Telegram/Foldable%20Wireless%20Keyboard/_Image_sn3vltsn3vltsn3v_tjaxoz.png",
+        "https://res.cloudinary.com/ds2h3iwys/image/upload/v1762712596/Sales%20Chatbot%20Images/For%20Telegram/Foldable%20Wireless%20Keyboard/_Image_bl34qabl34qabl34_epywoz.png"
+    ],
 }
+
