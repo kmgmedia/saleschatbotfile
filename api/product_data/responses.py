@@ -1,0 +1,153 @@
+"""
+Product Response Variations
+Multiple natural response variations for each product
+"""
+
+PRODUCT_RESPONSES = {
+    "Smartwatch X": [
+        "Ah, the Smartwatch X! It's like having a mini fitness coach on your wrist — it tracks your steps, sleep, and heart rate effortlessly. 💪",
+        "If you're serious about your fitness, this watch's real-time heart rate tracking and sleep insights will blow your mind. Want to know if it's waterproof too? 🌊",
+        "Smartwatch X has a clean display and battery that can last days. Are you more into style or performance when choosing a smartwatch? ⌚",
+        "This beauty syncs perfectly with your phone and gives you notifications without pulling out your device. Perfect for busy days! 📱",
+    ],
+    
+    "Bluetooth Speaker Mini": [
+        "Bluetooth Speaker Mini packs a punch for its size — crisp sound, deep bass, and 12 hours of non-stop music. 🔊",
+        "Perfect for parties, beach days, or just vibing in your room. Want to hear about its waterproof version? 🎉",
+        "It's small but mighty. Do you care more about portability or sound power? 🎵",
+        "This little guy connects in seconds and the battery life is insane for such a compact speaker! 🔋",
+    ],
+    
+    "Wireless Earbuds Pro": [
+        "Wireless Earbuds Pro gives studio-level sound and blocks out noise like magic. 🎧✨",
+        "They're waterproof and fit snugly even during workouts. Would you like to know about battery life or sound modes? 💦",
+        "These are perfect for your daily commute — no wires, no stress. Want me to show color options? 🚇",
+        "The noise cancelling on these is next level — you'll be in your own world. Plus, they charge super fast! ⚡",
+    ],
+    
+    "Power Bank 20000mAh": [
+        "Power Bank 20000mAh keeps you powered for days — dual USB, fast charging, and built like a tank. 🔋💪",
+        "Imagine charging your phone four times before needing to recharge it. Need details on compatibility? 📱",
+        "It's a travel essential. Want me to tell you if it supports laptops or tablets too? ✈️",
+        "This beast never lets you down — whether you're camping or just had a long day. Charge multiple devices at once! 🏕️",
+    ],
+    
+    "Smart Home Hub": [
+        "The Smart Home Hub brings your home to life — control your lights, music, and security all in one touch. 🏠✨",
+        "It syncs seamlessly with Alexa, Google Home, and your smart devices. Want to know how it sets up? 🎤",
+        "It's perfect for creating a connected space. Are you building a new setup or upgrading an existing one? 🔌",
+        "Voice control everything from your couch — lights, temperature, even your coffee maker. The future is here! ☕",
+    ],
+    
+    "4K Action Camera": [
+        "4K Action Camera captures your adventures in jaw-dropping detail — even when you're on the move. 📹🏔️",
+        "It's got image stabilization and waterproof housing. Planning to use it for sports or travel? 🌊",
+        "This is a vlogger's dream — crisp footage and easy mounts. Want to see bundle options? 🎥",
+        "Imagine reliving your wildest moments in crystal-clear 4K. It handles extreme conditions like a pro! 🏄",
+    ],
+    
+    "Fitness Tracker Band": [
+        "Fitness Tracker Band is built for serious fitness tracking — heart rate, calories, steps, all in real-time. 💪📊",
+        "It's lightweight and syncs directly to your phone. Want to see how it compares to Smartwatch X? 📱",
+        "Perfect for your fitness goals — it even tracks sleep quality. Are you more into running or gym workouts? 🏃",
+        "This baby won't even notice you're wearing it, but it'll notice EVERYTHING you do. Great for daily motivation! 🎯",
+    ],
+    
+    "Smart LED Strip Lights": [
+        "Smart LED Strip Lights transform any room into a vibe — 16 million colors at your fingertips! 💡🌈",
+        "Control them with your phone or voice. Perfect for gaming setups, bedrooms, or parties! 🎮",
+        "Want to sync them with your music? They react to beats and create an amazing atmosphere! 🎵",
+        "Easy to install, easy to love. Are you going for a chill mood or party mode? 🎉",
+    ],
+    
+    "Portable Projector Pro": [
+        "Portable Projector Pro brings cinema anywhere — pocket-sized with HDMI and wireless casting! 📽️🍿",
+        "Movie nights under the stars? Gaming on a huge screen? This little guy does it all. What's your dream setup? ⭐",
+        "It's surprisingly bright and clear. Want to know about battery life or compatible devices? 🔋",
+        "From backyard movies to presentations, this projector is a game-changer. Portable entertainment! 🎬",
+    ],
+    
+    "Smart Security Camera": [
+        "Smart Security Camera keeps your home safe 24/7 with 1080p live feed and night vision. 🎥🌙",
+        "Motion alerts sent straight to your phone. You'll always know what's happening at home! 📱",
+        "It's weatherproof and has two-way audio — talk to delivery people or scare off intruders! 🔊",
+        "Peace of mind in a package. Indoor or outdoor — where are you thinking of placing it? 🏠",
+    ],
+    
+    "Wireless Charging Pad": [
+        "Wireless Charging Pad is the cable-free life you deserve — sleek, fast, Qi-certified! ⚡✨",
+        "Just drop your phone and go. Works with iPhone, Samsung, and most modern devices! 📱",
+        "No more tangled cables or broken ports. It's simple, elegant, and efficient! 🎯",
+        "Charges fast and looks premium on any desk or nightstand. Minimalist dream! 🌟",
+    ],
+    
+    "Noise-Cancelling Headphones": [
+        "Noise-Cancelling Headphones deliver immersive sound that blocks out the world. 🎧🌍",
+        "Perfect for travel, work, or just escaping into your music. Comfort for hours! ✈️",
+        "The ANC technology is top-tier — you won't hear a thing except pure audio bliss! 🎵",
+        "Whether you're creating content or relaxing, these headphones are your best companion! 🎬",
+    ],
+    
+    "Smart Thermostat": [
+        "Smart Thermostat saves energy and money while keeping you perfectly comfortable. 🌡️💰",
+        "Control temperature from anywhere with your phone or voice. Coming home to the perfect temp! 📱",
+        "It learns your schedule and adjusts automatically. Smart heating/cooling for smart people! 🧠",
+        "Eco-friendly and stylish. Want to know how much you can save on bills? 💚",
+    ],
+    
+    "Smart Light Bulb (4-Pack)": [
+        "Smart Light Bulb 4-Pack with 16 million colors and voice control — light up your life! 💡🎨",
+        "Works with Alexa and Google Home. Set schedules, scenes, and moods! 🎤",
+        "Four bulbs = four rooms of smart lighting magic. Which rooms are you upgrading? 🏠",
+        "From warm white to disco purple — these bulbs do it all. Energy-efficient too! ⚡",
+    ],
+    
+    "Mini Drone X2": [
+        "Mini Drone X2 is your personal aerial photographer — HD camera, gesture control, obstacle avoidance! 🚁📸",
+        "Compact enough to fit in your bag, powerful enough for stunning shots. Adventure ready! 🎒",
+        "Beginner-friendly but packed with pro features. Ever flown a drone before? 🎮",
+        "Capture angles you never thought possible. Perfect for travel content creators! 🌍",
+    ],
+    
+    "Laptop Stand Pro": [
+        "Laptop Stand Pro elevates your workspace — literally! Better posture, better airflow. 💻✨",
+        "Ergonomic aluminum design that looks sleek and feels solid. Your neck will thank you! 🙏",
+        "Adjustable height and angle. Working from home or office? This is a must-have! 🏠",
+        "Say goodbye to back pain and hello to productivity. Compatible with all laptops! 📈",
+    ],
+    
+    "Foldable Wireless Keyboard": [
+        "Foldable Wireless Keyboard fits in your pocket and unfolds to full-size typing bliss! ⌨️✈️",
+        "Perfect for remote work, travel, or coffee shop productivity sessions! ☕",
+        "Bluetooth connects to everything — phone, tablet, laptop. Type anywhere, anytime! 📱",
+        "It's like having a full keyboard without the bulk. Digital nomad essential! 🌏",
+    ],
+    
+    "Smart Doorbell Cam": [
+        "Smart Doorbell Cam lets you see and talk to visitors from anywhere in the world! 🔔📱",
+        "Real-time motion alerts and two-way audio. Never miss a delivery again! 📦",
+        "Night vision ensures 24/7 security. See who's at your door, even in the dark! 🌙",
+        "Easy installation, huge peace of mind. Thinking of upgrading your home security? 🏠",
+    ],
+    
+    "VR Headset Max": [
+        "VR Headset Max transports you to other worlds — immersive gaming and exploration! 🥽🌌",
+        "Compatible with major platforms and games. Ready to step into the metaverse? 🎮",
+        "Crystal-clear visuals and comfortable for extended sessions. Gaming or virtual travel? ✈️",
+        "The future of entertainment is here. What kind of experiences are you most excited about? 🚀",
+    ],
+    
+    "Portable Solar Charger": [
+        "Portable Solar Charger harnesses the sun to keep you powered — eco-friendly and unlimited! ☀️🔋",
+        "Perfect for camping, hiking, or any outdoor adventure. Never run out of juice! 🏕️",
+        "Folds up compact, unfolds to charge multiple devices. Mother Nature's power bank! 🌲",
+        "Sustainable energy for sustainable adventures. Where's your next off-grid trip? 🌍",
+    ],
+    
+    "Fitness Band Pro": [
+        "Fitness Band Pro takes your workouts to the next level — GPS tracking, advanced metrics, and 14-day battery! 💪⚡",
+        "Heart rate zones, VO2 max, recovery time — this is for serious athletes! 🏃",
+        "Sleep analysis that actually helps you improve. Are you training for something specific? 🎯",
+        "Professional-grade fitness tracking in a sleek package. Your personal coach on your wrist! 📊",
+    ],
+}
