@@ -58,11 +58,31 @@ PRODUCT_IMAGES = {
     ],
     
     # SMART HOME
+    "Smart Home Hub": [
+        "https://res.cloudinary.com/ds2h3iwys/image/upload/v1762703195/Sales%20Chatbot%20Images/For%20Telegram/Smart%20Home%20Hub/_Image_tx7bnrtx7bnrtx7b_g497nq.png",
+        "https://res.cloudinary.com/ds2h3iwys/image/upload/v1762703193/Sales%20Chatbot%20Images/For%20Telegram/Smart%20Home%20Hub/_Image_rjpav1rjpav1rjpa_hcx47g.png",
+        "https://res.cloudinary.com/ds2h3iwys/image/upload/v1762703198/Sales%20Chatbot%20Images/For%20Telegram/Smart%20Home%20Hub/_Image_35mhlz35mhlz35mh_dsdeye.png"
+    ],
     "Smart LED Strip Lights": [
         "https://res.cloudinary.com/ds2h3iwys/image/upload/v1762687130/Sales%20Chatbot%20Images/For%20Telegram/Smart%20LED%20Strip%20Lights/Smart_LED_Strip_Lights_lmmvrr.png",
         "https://res.cloudinary.com/ds2h3iwys/image/upload/v1762687132/Sales%20Chatbot%20Images/For%20Telegram/Smart%20LED%20Strip%20Lights/Smart_LED_Strip_Lights1_jbxxwt.png",
         "https://res.cloudinary.com/ds2h3iwys/image/upload/v1762687133/Sales%20Chatbot%20Images/For%20Telegram/Smart%20LED%20Strip%20Lights/Smart_LED_Strip_Lights2_cgen2j.png",
         "https://res.cloudinary.com/ds2h3iwys/image/upload/v1762687134/Sales%20Chatbot%20Images/For%20Telegram/Smart%20LED%20Strip%20Lights/Smart_LED_Strip_Lights3_gag9xw.png"
+    ],
+    "Smart Thermostat": [
+        "https://res.cloudinary.com/ds2h3iwys/image/upload/v1762704179/Sales%20Chatbot%20Images/For%20Telegram/Smart%20Thermostat/_Image_vwqz7nvwqz7nvwqz_mpr1ds.png",
+        "https://res.cloudinary.com/ds2h3iwys/image/upload/v1762704181/Sales%20Chatbot%20Images/For%20Telegram/Smart%20Thermostat/_Image_zem6jnzem6jnzem6_u9q8zj.png",
+        "https://res.cloudinary.com/ds2h3iwys/image/upload/v1762704180/Sales%20Chatbot%20Images/For%20Telegram/Smart%20Thermostat/_Image_si43xwsi43xwsi43_zkpkhn.png"
+    ],
+    "Smart Light Bulb (4-Pack)": [
+        "https://res.cloudinary.com/ds2h3iwys/image/upload/v1762705534/Sales%20Chatbot%20Images/For%20Telegram/Smart%20Light%20Bulb/_Image_6svxre6svxre6svx_qkjesb.png",
+        "https://res.cloudinary.com/ds2h3iwys/image/upload/v1762705534/Sales%20Chatbot%20Images/For%20Telegram/Smart%20Light%20Bulb/_Image_8k22xt8k22xt8k22_pfwuy8.png",
+        "https://res.cloudinary.com/ds2h3iwys/image/upload/v1762705532/Sales%20Chatbot%20Images/For%20Telegram/Smart%20Light%20Bulb/_Image_gecwovgecwovgecw_jtrtr3.png"
+    ],
+    "Smart Doorbell Cam": [
+        "https://res.cloudinary.com/ds2h3iwys/image/upload/v1762706302/Sales%20Chatbot%20Images/For%20Telegram/Smart%20Doorbell%20Cam/_Image_uh06pauh06pauh06_psurx0.png",
+        "https://res.cloudinary.com/ds2h3iwys/image/upload/v1762706304/Sales%20Chatbot%20Images/For%20Telegram/Smart%20Doorbell%20Cam/_Image_wc1bypwc1bypwc1b_j7wsdx.png",
+        "https://res.cloudinary.com/ds2h3iwys/image/upload/v1762706308/Sales%20Chatbot%20Images/For%20Telegram/Smart%20Doorbell%20Cam/_Image_90sopm90sopm90so_jbi60a.png"
     ],
     
     # Add more products as you upload their images to Cloudinary
