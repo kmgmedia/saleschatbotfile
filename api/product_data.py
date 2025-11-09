@@ -6,10 +6,10 @@ Contains all product information: prices, specifications, keywords, and response
 # Product images (uploaded to static folder or external URLs)
 PRODUCT_IMAGES = {
     "Smart LED Strip Lights": [
-        "https://i.postimg.cc/mr8QbC8n/led-strip-1.jpg",
-        "https://i.postimg.cc/CxDgVPzQ/led-strip-2.jpg", 
-        "https://i.postimg.cc/Y9kD6SyS/led-strip-3.jpg",
-        "https://i.postimg.cc/m2Q1TRpK/led-strip-4.jpg"
+        "https://res.cloudinary.com/ds2h3iwys/image/upload/v1762687130/Sales%20Chatbot%20Images/For%20Telegram/Smart%20LED%20Strip%20Lights/Smart_LED_Strip_Lights_lmmvrr.png",
+        "https://res.cloudinary.com/ds2h3iwys/image/upload/v1762687132/Sales%20Chatbot%20Images/For%20Telegram/Smart%20LED%20Strip%20Lights/Smart_LED_Strip_Lights1_jbxxwt.png",
+        "https://res.cloudinary.com/ds2h3iwys/image/upload/v1762687133/Sales%20Chatbot%20Images/For%20Telegram/Smart%20LED%20Strip%20Lights/Smart_LED_Strip_Lights2_cgen2j.png",
+        "https://res.cloudinary.com/ds2h3iwys/image/upload/v1762687134/Sales%20Chatbot%20Images/For%20Telegram/Smart%20LED%20Strip%20Lights/Smart_LED_Strip_Lights3_gag9xw.png"
     ],
     # Add more products as needed
 }
