@@ -128,18 +128,18 @@ What brings you in today? Let's find something awesome for you! 🎯"""
                             product_price = get_product_price(detected_product)
                             product_spec = get_product_spec(detected_product)
                             
-                            # Create detailed caption
+                            # Create detailed caption for the media group
                             caption = f"*{detected_product}*\n\n"
                             caption += f"💰 *Price:* ${product_price}\n\n"
                             caption += f"📋 *Details:* {product_spec}\n\n"
                             caption += f"{response_text}"
                             
-                            # Send first image with caption and buttons
-                            send_photo(chat_id, product_images[0], caption=caption, reply_markup=product_buttons(detected_product))
+                            # Send all images as a carousel (media group) with caption on first image
+                            send_media_group(chat_id, product_images, caption=caption)
                             
-                            # Send remaining images as album if there are more
-                            if len(product_images) > 1:
-                                send_media_group(chat_id, product_images[1:])
+                            # Send buttons in a separate message immediately after
+                            button_text = "👇 Choose an option below:"
+                            send_message(chat_id, button_text, reply_markup=product_buttons(detected_product))
                         else:
                             # No images, send text with product buttons
                             send_message(chat_id, response_text, reply_markup=product_buttons(detected_product))
@@ -155,18 +155,18 @@ What brings you in today? Let's find something awesome for you! 🎯"""
                                 product_price = get_product_price(last_product)
                                 product_spec = get_product_spec(last_product)
                                 
-                                # Create detailed caption
+                                # Create detailed caption for the media group
                                 caption = f"*{last_product}*\n\n"
                                 caption += f"💰 *Price:* ${product_price}\n\n"
                                 caption += f"📋 *Details:* {product_spec}\n\n"
                                 caption += f"{response_text}"
                                 
-                                # Send first image with caption and buttons
-                                send_photo(chat_id, product_images[0], caption=caption, reply_markup=product_buttons(last_product))
+                                # Send all images as a carousel (media group) with caption on first image
+                                send_media_group(chat_id, product_images, caption=caption)
                                 
-                                # Send remaining images as album if there are more
-                                if len(product_images) > 1:
-                                    send_media_group(chat_id, product_images[1:])
+                                # Send buttons in a separate message immediately after
+                                button_text = "👇 Choose an option below:"
+                                send_message(chat_id, button_text, reply_markup=product_buttons(last_product))
                             else:
                                 # No images, send with buttons for the cheapest product
                                 send_message(chat_id, response_text, reply_markup=product_buttons(last_product))
