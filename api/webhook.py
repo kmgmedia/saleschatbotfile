@@ -9,7 +9,7 @@ from flask import Flask, request, jsonify
 
 # Import our modular components
 try:
-    from .openai_handler import get_response
+    from .gemini_handler import get_response
     from .telegram_handler import send_message, send_photo, send_media_group, edit_message, TELEGRAM_TOKEN
     from .landing_page import get_landing_page
     from .inline_keyboard import handle_button_callback, product_buttons
@@ -17,7 +17,7 @@ try:
 except ImportError as e:
     print(f"⚠️ Import error: {e}, using inline functions", file=sys.stderr)
     # Fallback: import inline functions if modules don't work
-    from openai_handler import get_response
+    from gemini_handler import get_response
     from telegram_handler import send_message, send_photo, send_media_group, edit_message, TELEGRAM_TOKEN
     from landing_page import get_landing_page
     from inline_keyboard import handle_button_callback, product_buttons
