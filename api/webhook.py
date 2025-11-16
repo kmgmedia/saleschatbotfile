@@ -1,5 +1,5 @@
 """
-Vercel webhook endpoint for Telegram bot with OpenAI
+Vercel webhook endpoint for Telegram bot with Google Gemini AI
 Clean and modular architecture - main entry point
 """
 import os
@@ -106,7 +106,7 @@ What brings you in today? Let's find something awesome for you! 🎯"""
                     send_message(chat_id, welcome_text, reply_markup=get_product_list_keyboard())
                     return jsonify({'ok': True})
                 
-                # Get response from OpenAI handler (with automatic fallback)
+                # Get response from Google Gemini handler (with automatic fallback)
                 # Pass user_id for conversation memory
                 try:
                     response_text = get_response(user_message, user_id)

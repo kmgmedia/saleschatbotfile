@@ -6,7 +6,7 @@
 saleschatbotfile/
 ├── api/
 │   ├── webhook.py          ← Main entry point (Flask app & routes)
-│   ├── openai_handler.py   ← OpenAI API logic
+│   ├── openai_handler.py   ← Google Gemini AI logic (previously OpenAI)
 │   ├── responses.py        ← Fallback keyword responses
 │   ├── telegram_handler.py ← Telegram API interactions
 │   ├── prompt_loader.py    ← Load prompts from files
@@ -31,15 +31,16 @@ saleschatbotfile/
 ### `api/responses.py` - Keyword Fallback Responses
 
 - Contains `get_fallback_response()` function
-- Keyword-based responses when OpenAI is unavailable
+- Keyword-based responses when Google Gemini is unavailable
 - **Edit this to**: Add/modify product responses, greetings, FAQs
 
-### `api/openai_handler.py` - AI Intelligence
+### `api/openai_handler.py` - AI Intelligence (Google Gemini)
 
 - Contains `get_response()` function
-- Calls OpenAI API with prompts
+- Calls Google Gemini 2.5 Flash API with prompts
 - Falls back to keyword responses on error
 - **Edit this to**: Change AI model, temperature, max tokens
+- **Note:** File still named `openai_handler.py` for backward compatibility
 
 ### `api/telegram_handler.py` - Telegram Integration
 

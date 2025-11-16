@@ -281,7 +281,7 @@ Test with any of these:
 **Bot not responding?**
 
 - Check if webhook is active at https://saleschatbotfile.vercel.app
-- OpenAI might be rate-limited (bot will use fallback responses - this is OK!)
+- Google Gemini might be rate-limited (bot will use fallback responses - this is OK!)
 
 ---
 

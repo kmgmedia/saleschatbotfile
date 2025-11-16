@@ -14,18 +14,18 @@
 2. Type `/newbot` and follow instructions
 3. Save your TOKEN (looks like `123456789:ABCdef...`)
 
-### 2. Get OpenAI API Key 🔑
+### 2. Get Google Gemini API Key 🔑
 
-1. Go to [platform.openai.com](https://platform.openai.com)
-2. Create account → API Keys → Create new key
-3. Save your key (starts with `sk-...`)
+1. Go to [Google AI Studio](https://aistudio.google.com/app/apikey)
+2. Create account → Create API Key → Create API key in new project
+3. Save your key (starts with `AIza...`)
 
 ### 3. Add Your Keys 🗝️
 
 Open `.env` file and add:
 
 ```
-OPENAI_API_KEY=sk-your-key-here
+GOOGLE_API_KEY=AIza-your-key-here
 TELEGRAM_TOKEN=123456789:your-token-here
 ```
 
@@ -83,7 +83,7 @@ The bot runs in smart keyword mode automatically - no AI costs until you're read
 
 **Need to code?** Nope! Just follow the steps above 👨‍🍳
 
-**Cost?** Free in test mode. OpenAI charges pennies per message when enabled.
+**Cost?** Free! Google Gemini API has a generous free tier. No credit card needed for testing.
 
 **What if it stops?** Run `python bot.py` again 🔄
 
