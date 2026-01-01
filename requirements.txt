@@ -1,2 +1,11 @@
 flask
 requests
+python-dotenv
+sqlalchemy
+psycopg2-binary
+langchain
+langchain-core
+langchain-google-genai
+python-telegram-bot
+pydantic
+alembic

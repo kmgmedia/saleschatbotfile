@@ -3,16 +3,30 @@ Conversation Handler - Main Orchestrator
 Simplified to coordinate between specialized modules
 """
 import random
-from .product_data import (
-    PRODUCT_PRICES, PRODUCT_SPECS, detect_product, 
-    get_product_responses, get_product_price
-)
-from .emotion_detector import detect_emotion, get_empathetic_response
-from .sales_psychology import enhance_product_response, get_buying_intent_message
-from .user_memory import (
-    get_last_product, set_last_product, has_context,
-    user_conversations  # Export for backward compatibility
-)
+
+# Handle both relative and direct imports
+try:
+    from .product_data import (
+        PRODUCT_PRICES, PRODUCT_SPECS, detect_product, 
+        get_product_responses, get_product_price
+    )
+    from .emotion_detector import detect_emotion, get_empathetic_response
+    from .sales_psychology import enhance_product_response, get_buying_intent_message
+    from .user_memory import (
+        get_last_product, set_last_product, has_context,
+        user_conversations  # Export for backward compatibility
+    )
+except ImportError:
+    from product_data import (
+        PRODUCT_PRICES, PRODUCT_SPECS, detect_product, 
+        get_product_responses, get_product_price
+    )
+    from emotion_detector import detect_emotion, get_empathetic_response
+    from sales_psychology import enhance_product_response, get_buying_intent_message
+    from user_memory import (
+        get_last_product, set_last_product, has_context,
+        user_conversations  # Export for backward compatibility
+    )
 
 
 def get_product_response(product_name):

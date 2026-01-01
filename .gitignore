@@ -20,3 +20,14 @@ build/
 .idea/
 *.log
 .env*.local
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+saleschatbot.db
+
+# Test/temp files
+test_data_generator.py
+clear_database.py
+test_flask.py
