@@ -344,7 +344,7 @@
           return;
         }
 
-        console.log('Attempting login with key length:', key.length);
+        console.log("Attempting login with key length:", key.length);
         adminKey = key;
         localStorage.setItem("adminKey", key);
         showDashboard();
@@ -398,23 +398,23 @@
           const response = await fetch(
             `${API_URL}/dashboard?days=${days}&api_key=${adminKey}`
           );
-          
+
           if (!response.ok) {
-            console.error('API returned status:', response.status);
+            console.error("API returned status:", response.status);
             throw new Error("Unauthorized");
           }
 
           const result = await response.json();
-          console.log('API response:', result);
-          
+          console.log("API response:", result);
+
           if (result.success) {
             renderDashboard(result.data);
             hideLoading();
           } else {
-            showError(result.error || 'Failed to load dashboard data');
+            showError(result.error || "Failed to load dashboard data");
           }
         } catch (error) {
-          console.error('Dashboard error:', error);
+          console.error("Dashboard error:", error);
           showError("Failed to load dashboard - check browser console");
           // Don't logout on network errors, only on 401
           if (error.message === "Unauthorized") {
