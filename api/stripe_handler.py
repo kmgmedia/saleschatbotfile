@@ -6,6 +6,10 @@ import os
 import stripe
 import sys
 from datetime import datetime
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
 
 try:
     from .database import get_session
