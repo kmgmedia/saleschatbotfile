@@ -297,6 +297,154 @@ What brings you in today? Let's find something awesome for you! 🎯"""
         import traceback
         traceback.print_exc(file=sys.stderr)
         return jsonify({'error': str(e)}), 500
+@app.route('/api/checkout', methods=['POST'])
+def checkout():
+    """Initiate Stripe checkout for user's cart"""
+    try:
+        from .stripe_handler import create_checkout_session
+        from .cart_manager import get_cart, get_cart_total, clear_cart
+        
+        data = request.get_json()
+        user_id = data.get('user_id')
+        
+        if not user_id:
+            return jsonify({'error': 'User ID required'}), 400
+        
+        # Get user's cart
+        cart_items = get_cart(user_id)
+        if not cart_items:
+            return jsonify({'error': 'Cart is empty'}), 400
+        
+        # Convert cart to format for Stripe
+        line_items = [
+            {
+                'price_data': {
+                    'currency': 'usd',
+                    'product_data': {'name': item.product_name},
+                    'unit_amount': int(item.unit_price * 100)
+                },
+                'quantity': item.quantity
+            }
+            for item in cart_items
+        ]
+        
+        # Get domain (adjust based on deployment)
+        domain = request.host_url.rstrip('/')
+        success_url = f"{domain}/api/payment-success?session_id={{CHECKOUT_SESSION_ID}}"
+        cancel_url = f"{domain}/api/payment-cancel"
+        
+        # Create Stripe session
+        session_data = create_checkout_session(
+            user_id=user_id,
+            line_items=line_items,
+            success_url=success_url,
+            cancel_url=cancel_url
+        )
+        
+        if session_data.get('error'):
+            return jsonify({'error': session_data['error']}), 400
+        
+        return jsonify({
+            'checkout_url': session_data.get('url'),
+            'session_id': session_data.get('session_id')
+        }), 200
+    
+    except Exception as e:
+        print(f"Checkout error: {e}", file=sys.stderr)
+        log_error(user_id, 'checkout_error', str(e))
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/api/payment-success', methods=['GET'])
+def payment_success():
+    """Handle successful Stripe payment"""
+    try:
+        from .stripe_handler import handle_payment_success
+        
+        session_id = request.args.get('session_id')
+        if not session_id:
+            return jsonify({'error': 'Session ID required'}), 400
+        
+        result = handle_payment_success(session_id)
+        if not result:
+            return jsonify({'error': 'Payment processing failed'}), 400
+        
+        # Return success HTML page
+        return f"""
+        <html>
+            <head>
+                <title>Payment Successful</title>
+                <style>
+                    body {{ font-family: Arial, sans-serif; text-align: center; padding: 50px; }}
+                    .success {{ color: green; font-size: 24px; }}
+                </style>
+            </head>
+            <body>
+                <div class="success">✅ Payment Successful!</div>
+                <p>Thank you for your purchase. You will receive an email confirmation shortly.</p>
+                <p><a href="https://t.me/{result.get('bot_username', 'your_bot')}">Return to Bot</a></p>
+            </body>
+        </html>
+        """, 200
+    
+    except Exception as e:
+        print(f"Payment success handler error: {e}", file=sys.stderr)
+        return f"<html><body>Error processing payment: {e}</body></html>", 500
+
+
+@app.route('/api/payment-cancel', methods=['GET'])
+def payment_cancel():
+    """Handle cancelled Stripe payment"""
+    return """
+    <html>
+        <head>
+            <title>Payment Cancelled</title>
+            <style>
+                body { font-family: Arial, sans-serif; text-align: center; padding: 50px; }
+                .cancel { color: red; font-size: 24px; }
+            </style>
+        </head>
+        <body>
+            <div class="cancel">❌ Payment Cancelled</div>
+            <p>Your payment was not completed. Your cart items are still saved.</p>
+            <p><a href="https://t.me/your_bot">Return to Bot</a></p>
+        </body>
+    </html>
+    """, 200
+
+
+@app.route('/api/stripe-webhook', methods=['POST'])
+def stripe_webhook():
+    """Handle Stripe webhook events"""
+    try:
+        import stripe
+        from .stripe_handler import handle_payment_success
+        
+        payload = request.get_data(as_text=True)
+        sig_header = request.headers.get('Stripe-Signature')
+        
+        # Verify webhook signature
+        try:
+            event = stripe.Webhook.construct_event(
+                payload, sig_header, os.getenv('STRIPE_WEBHOOK_SECRET')
+            )
+        except ValueError:
+            return jsonify({'error': 'Invalid payload'}), 400
+        except stripe.error.SignatureVerificationError:
+            return jsonify({'error': 'Invalid signature'}), 400
+        
+        # Handle payment.succeeded event
+        if event['type'] == 'checkout.session.completed':
+            session_id = event['data']['object']['id']
+            result = handle_payment_success(session_id)
+            if result:
+                print(f"Payment completed for session: {session_id}", file=sys.stderr)
+        
+        return jsonify({'success': True}), 200
+    
+    except Exception as e:
+        print(f"Stripe webhook error: {e}", file=sys.stderr)
+        return jsonify({'error': str(e)}), 500
 
 # For local testing
 if __name__ == '__main__':

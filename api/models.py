@@ -170,3 +170,73 @@ class ChatMessageHistory(Base):
     
     def __repr__(self):
         return f"<Message {self.message_id}>"
+
+class PaymentIntent(Base):
+    """Stripe payment tracking"""
+    __tablename__ = 'payment_intents'
+    
+    payment_intent_id = Column(Integer, primary_key=True, autoincrement=True)
+    user_id = Column(BigInteger, ForeignKey('users.user_id'), nullable=False)
+    
+    # Stripe details
+    stripe_session_id = Column(String(255), unique=True, nullable=False)
+    stripe_payment_intent_id = Column(String(255), nullable=True)
+    
+    # Payment info
+    total_amount = Column(Float, nullable=False)
+    status = Column(String(50), default='pending')  # pending, completed, failed, cancelled
+    cart_items = Column(Text, nullable=True)  # JSON string of cart items
+    
+    # Timestamps
+    created_at = Column(DateTime, default=datetime.utcnow)
+    completed_at = Column(DateTime, nullable=True)
+    
+    def __repr__(self):
+        return f"<PaymentIntent {self.payment_intent_id}>"
+
+
+class Order(Base):
+    """Completed orders"""
+    __tablename__ = 'orders'
+    
+    order_id = Column(Integer, primary_key=True, autoincrement=True)
+    user_id = Column(BigInteger, ForeignKey('users.user_id'), nullable=False)
+    
+    # Payment reference
+    payment_intent_id = Column(Integer, ForeignKey('payment_intents.payment_intent_id'), nullable=True)
+    
+    # Order details
+    total_amount = Column(Float, nullable=False)
+    status = Column(String(50), default='confirmed')  # confirmed, shipped, delivered, cancelled
+    items = Column(Text, nullable=True)  # JSON string of items
+    
+    # Delivery info
+    customer_email = Column(String(255), nullable=True)
+    shipping_address = Column(Text, nullable=True)
+    
+    # Timestamps
+    created_at = Column(DateTime, default=datetime.utcnow)
+    shipped_at = Column(DateTime, nullable=True)
+    delivered_at = Column(DateTime, nullable=True)
+    
+    def __repr__(self):
+        return f"<Order {self.order_id}>"
+
+
+class CartItem(Base):
+    """Shopping cart items (temporary, per user)"""
+    __tablename__ = 'cart_items'
+    
+    cart_item_id = Column(Integer, primary_key=True, autoincrement=True)
+    user_id = Column(BigInteger, ForeignKey('users.user_id'), nullable=False)
+    
+    # Item details
+    product_name = Column(String(255), nullable=False)
+    quantity = Column(Integer, default=1)
+    unit_price = Column(Float, nullable=False)
+    
+    # Metadata
+    added_at = Column(DateTime, default=datetime.utcnow)
+    
+    def __repr__(self):
+        return f"<CartItem {self.cart_item_id}>"

@@ -9,3 +9,4 @@ langchain-google-genai
 python-telegram-bot
 pydantic
 alembic
+stripe

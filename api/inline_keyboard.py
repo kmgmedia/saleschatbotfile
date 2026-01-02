@@ -15,7 +15,7 @@ def product_buttons(product_name):
                 {"text": "📋 See Specs", "callback_data": f"specs:{product_name}"}
             ],
             [
-                {"text": "🛒 Buy Now", "callback_data": f"buy:{product_name}"},
+                {"text": "🛒 Add to Cart", "callback_data": f"cart:{product_name}"},
                 {"text": "🔄 Compare", "callback_data": f"compare:{product_name}"}
             ],
             [
@@ -112,11 +112,47 @@ def handle_button_callback(callback_data, user_id):
             "reply_markup": product_buttons(product)
         }
     
+    elif action == "cart":
+        from .cart_manager import add_to_cart
+        success = add_to_cart(user_id, product)
+        if success:
+            return {
+                "text": f"✅ Added **{product}** to your cart!\n\nWant to:\n• Continue shopping\n• View cart\n• Proceed to checkout",
+                "reply_markup": cart_action_buttons()
+            }
+        else:
+            return {
+                "text": f"❌ Sorry, couldn't add **{product}** to cart. Please try again.",
+                "reply_markup": product_buttons(product)
+            }
+    
     elif action == "compare":
         return {
             "text": f"🔄 Let's compare the **{product}**!\n\nWhich other product would you like to compare it with? Just type the product name!",
             "reply_markup": product_buttons(product)
         }
+    
+    elif action == "action":
+        # Handle special actions: view_cart, checkout, clear_cart
+        from .cart_manager import get_cart_summary, clear_cart
+        
+        if product == "view_cart":
+            summary = get_cart_summary(user_id)
+            return {
+                "text": summary,
+                "reply_markup": cart_view_buttons()
+            }
+        elif product == "checkout":
+            return {
+                "text": "💳 Proceeding to secure checkout...\n\nPlease wait while we prepare your order.",
+                "reply_markup": None
+            }
+        elif product == "clear_cart":
+            clear_cart(user_id)
+            return {
+                "text": "🗑️ Your cart has been cleared.\n\nWould you like to start shopping again?",
+                "reply_markup": get_product_list_keyboard()
+            }
     
     else:
         return {
@@ -144,6 +180,35 @@ def get_product_list_keyboard():
             [
                 {"text": "💪 Fitness Band", "callback_data": "product:Fitness Band Pro"},
                 {"text": "🥽 VR Headset", "callback_data": "product:VR Headset Max"}
+            ]
+        ]
+    }
+
+def cart_action_buttons():
+    """Generate buttons for cart actions"""
+    return {
+        "inline_keyboard": [
+            [
+                {"text": "🛍️ View Cart", "callback_data": "action:view_cart"},
+                {"text": "💳 Checkout", "callback_data": "action:checkout"}
+            ],
+            [
+                {"text": "🛒 Continue Shopping", "callback_data": "back"}
+            ]
+        ]
+    }
+
+
+def cart_view_buttons():
+    """Generate buttons when viewing cart"""
+    return {
+        "inline_keyboard": [
+            [
+                {"text": "💳 Proceed to Checkout", "callback_data": "action:checkout"},
+                {"text": "🗑️ Clear Cart", "callback_data": "action:clear_cart"}
+            ],
+            [
+                {"text": "🛒 Continue Shopping", "callback_data": "back"}
             ]
         ]
     }
