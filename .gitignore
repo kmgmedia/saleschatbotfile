@@ -26,6 +26,7 @@ build/
 *.sqlite
 *.sqlite3
 saleschatbot.db
+api/migrate_bigint_user_ids.py
 
 # Test/temp files
 test_data_generator.py
