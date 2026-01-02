@@ -143,9 +143,51 @@ def handle_button_callback(callback_data, user_id):
                 "reply_markup": cart_view_buttons()
             }
         elif product == "checkout":
+            import os
+            from .cart_manager import get_cart
+            from .stripe_handler import create_checkout_session
+            
+            cart_items = get_cart(user_id)
+            if not cart_items:
+                return {
+                    "text": "🛒 Your cart is empty. Add an item before checkout.",
+                    "reply_markup": get_product_list_keyboard()
+                }
+
+            # Build Stripe line_items
+            line_items = [
+                {
+                    "price_data": {
+                        "currency": "usd",
+                        "product_data": {"name": item.product_name},
+                        "unit_amount": int(item.unit_price * 100)
+                    },
+                    "quantity": item.quantity
+                }
+                for item in cart_items
+            ]
+
+            base_url = os.getenv("PUBLIC_BASE_URL", "http://localhost:5000")
+            success_url = f"{base_url}/api/payment-success?session_id={{CHECKOUT_SESSION_ID}}"
+            cancel_url = f"{base_url}/api/payment-cancel"
+
+            session_data = create_checkout_session(
+                user_id=user_id,
+                line_items=line_items,
+                success_url=success_url,
+                cancel_url=cancel_url
+            )
+
+            if session_data.get("error"):
+                return {
+                    "text": f"❌ Checkout error: {session_data['error']}",
+                    "reply_markup": cart_view_buttons()
+                }
+
+            checkout_url = session_data.get("url")
             return {
-                "text": "💳 Proceeding to secure checkout...\n\nPlease wait while we prepare your order.",
-                "reply_markup": None
+                "text": f"💳 Proceeding to secure checkout...\n\nPlease tap this link to pay: {checkout_url}",
+                "reply_markup": cart_view_buttons()
             }
         elif product == "clear_cart":
             clear_cart(user_id)
