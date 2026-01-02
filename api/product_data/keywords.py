@@ -49,6 +49,10 @@ PRODUCT_KEYWORDS = {
     
     "light bulb": "Smart Light Bulb (4-Pack)",
     "smart bulb": "Smart Light Bulb (4-Pack)",
+    "lighting starter": "Smart Light Bulb (4-Pack)",
+    "lighting": "Smart Light Bulb (4-Pack)",
+    "bulb": "Smart Light Bulb (4-Pack)",
+    "smart lighting": "Smart Light Bulb (4-Pack)",
     
     "drone": "Mini Drone X2",
     "mini drone": "Mini Drone X2",
