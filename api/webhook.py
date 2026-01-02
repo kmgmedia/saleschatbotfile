@@ -7,6 +7,10 @@ import os
 import sys
 import requests
 from flask import Flask, request, jsonify
+from dotenv import load_dotenv
+
+# Load environment variables from .env file (for local development)
+load_dotenv()
 
 # Import our modular components
 try:

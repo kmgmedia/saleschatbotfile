@@ -4,6 +4,10 @@ Telegram Bot API interaction handlers
 import os
 import requests
 import sys
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 TELEGRAM_TOKEN = os.getenv('TELEGRAM_TOKEN', '')
 
