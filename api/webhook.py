@@ -100,6 +100,7 @@ def dashboard():
 
 @app.route('/', methods=['POST'])
 @app.route('/webhook', methods=['POST'])
+@app.route('/api/webhook', methods=['POST'])  # Handle Vercel path when route is /api/webhook
 def webhook():
     """Handle incoming Telegram updates (messages and callback queries)"""
     try:
