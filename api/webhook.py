@@ -197,6 +197,14 @@ What brings you in today? Let's find something awesome for you! 🎯"""
                     
                     send_message(chat_id, welcome_text, reply_markup=get_product_list_keyboard())
                     return jsonify({'ok': True})
+
+                # Quick cart view/checkout entrypoint
+                if user_message.lower().startswith('/cart') or user_message.lower() == 'cart':
+                    from .cart_manager import get_cart_summary
+                    from .inline_keyboard import cart_view_buttons
+                    summary = get_cart_summary(user_id)
+                    send_message(chat_id, summary, reply_markup=cart_view_buttons())
+                    return jsonify({'ok': True})
                 
                 # Get response from Google Gemini handler (with automatic fallback)
                 # Pass user_id for conversation memory
