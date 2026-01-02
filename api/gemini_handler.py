@@ -30,12 +30,33 @@ def get_response(message, user_id=None):
         return get_fallback_response(message, user_id)
     
     try:
+        # Get conversation history if user_id provided
+        conversation_history = ""
+        if user_id:
+            try:
+                from .database_memory import get_user_memory
+                user_memory = get_user_memory(user_id)
+                messages = user_memory.get_messages(limit=10)  # Last 10 messages
+                
+                # Format conversation history
+                if messages:
+                    conversation_history = "\n\n**Recent Conversation:**\n"
+                    for msg in messages[-6:]:  # Last 6 messages (3 exchanges)
+                        role = msg.get('role', 'user')
+                        content = msg.get('content', '')
+                        if role == 'user':
+                            conversation_history += f"User: {content}\n"
+                        else:
+                            conversation_history += f"Alex: {content}\n"
+            except Exception as e:
+                print(f"Could not load conversation history: {e}", file=sys.stderr)
+        
         # Build the full prompt from loaded files
         full_prompt = f"""{SYSTEM_PROMPT}
 
 {SALES_STYLE}
 
-{PRODUCTS_LIST}
+{PRODUCTS_LIST}{conversation_history}
 
 User: {message}
 
