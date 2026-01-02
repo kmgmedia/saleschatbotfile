@@ -3,7 +3,7 @@ Database Models - SQLAlchemy ORM Models
 Defines data structures for users, conversations, and analytics
 """
 from datetime import datetime
-from sqlalchemy import Column, Integer, String, Float, DateTime, Boolean, Text, ForeignKey, JSON
+from sqlalchemy import Column, Integer, String, Float, DateTime, Boolean, Text, ForeignKey, JSON, BigInteger
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 
@@ -14,7 +14,7 @@ class User(Base):
     """User profile and conversation state"""
     __tablename__ = 'users'
     
-    user_id = Column(Integer, primary_key=True, unique=True)  # Telegram user ID
+    user_id = Column(BigInteger, primary_key=True, unique=True)  # Telegram user ID (can be > 2B)
     username = Column(String(255), nullable=True)
     first_name = Column(String(255), nullable=True)
     last_name = Column(String(255), nullable=True)
@@ -49,7 +49,7 @@ class Conversation(Base):
     __tablename__ = 'conversations'
     
     conversation_id = Column(Integer, primary_key=True, autoincrement=True)
-    user_id = Column(Integer, ForeignKey('users.user_id'), nullable=False)
+    user_id = Column(BigInteger, ForeignKey('users.user_id'), nullable=False)
     
     # Message content
     user_message = Column(Text, nullable=False)
@@ -78,7 +78,7 @@ class Analytics(Base):
     __tablename__ = 'analytics'
     
     metric_id = Column(Integer, primary_key=True, autoincrement=True)
-    user_id = Column(Integer, ForeignKey('users.user_id'), nullable=False)
+    user_id = Column(BigInteger, ForeignKey('users.user_id'), nullable=False)
     
     # Event tracking
     event_type = Column(String(50), nullable=False)  # message, button_click, product_view, purchase
