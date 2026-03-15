@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sales Bot - Analytics Dashboard</title>
+    <link rel="stylesheet" href="/static/css/dashboard.css" />
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>🤖 Alex - Analytics Dashboard</h1>
+        <p class="subtitle">Real-time sales bot performance metrics</p>
+      </header>
+
+      <!-- Authentication Section -->
+      <div class="auth-section" id="authSection">
+        <h2>Enter Admin Key</h2>
+        <input type="password" id="adminKey" placeholder="Admin API Key" />
+        <button onclick="authenticate()">Login</button>
+      </div>
+
+      <!-- Dashboard Section -->
+      <div class="dashboard" id="dashboard">
+        <div
+          style="
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+          "
+        >
+          <div class="period-selector">
+            <label>Time Period:</label>
+            <select id="periodSelect" onchange="refreshDashboard()">
+              <option value="7">Last 7 Days</option>
+              <option value="14">Last 14 Days</option>
+              <option value="30">Last 30 Days</option>
+              <option value="90">Last 90 Days</option>
+            </select>
+          </div>
+          <button class="logout-btn" onclick="logout()">Logout</button>
+        </div>
+
+        <div id="errorContainer"></div>
+        <div id="loadingContainer" class="loading" style="display: none">
+          <div class="spinner"></div>
+          <p>Loading dashboard...</p>
+        </div>
+
+        <div id="contentContainer">
+          <!-- Key Metrics -->
+          <div class="metrics-grid" id="metricsGrid"></div>
+
+          <!-- Funnel Analysis -->
+          <div class="chart-section">
+            <h2>📊 Conversion Funnel</h2>
+            <div id="funnelContainer"></div>
+          </div>
+
+          <!-- Top Products -->
+          <div class="chart-section">
+            <h2>🏆 Top Products</h2>
+            <div class="top-products" id="topProducts"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="/static/js/dashboard.js"></script>
+  </body>
+</html>
