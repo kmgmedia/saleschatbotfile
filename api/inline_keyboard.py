@@ -1,0 +1,256 @@
+"""
+Inline keyboard (button) handler for Telegram.
+Provides interactive buttons for better user experience.
+"""
+
+def product_buttons(product_name):
+    """
+    Generate inline keyboard buttons for a product.
+    Returns Telegram InlineKeyboardMarkup structure.
+    """
+    return {
+        "inline_keyboard": [
+            [
+                {"text": "💰 See Price", "callback_data": f"price:{product_name}"},
+                {"text": "📋 See Specs", "callback_data": f"specs:{product_name}"}
+            ],
+            [
+                {"text": "🛒 Add to Cart", "callback_data": f"cart:{product_name}"},
+                {"text": "🔄 Compare", "callback_data": f"compare:{product_name}"}
+            ],
+            [
+                {"text": "🏠 Back to Products", "callback_data": "back"}
+            ]
+        ]
+    }
+
+
+def handle_button_callback(callback_data, user_id):
+    """
+    Handle button clicks (callback queries).
+    
+    Args:
+        callback_data: The callback_data string from the button click
+        user_id: User ID for conversation tracking
+    
+    Returns:
+        dict with 'text' and optional 'reply_markup' keys
+    """
+    try:
+        from . import conversation_handler
+        from .product_data import PRODUCT_PRICES, get_product_spec
+        from .user_memory import set_last_product, user_conversations
+    except ImportError:
+        import conversation_handler
+        from product_data import PRODUCT_PRICES, get_product_spec
+        from user_memory import set_last_product, user_conversations
+    
+    # Back to products menu
+    if callback_data == "back":
+        # Clear user's last product
+        if user_id in user_conversations:
+            user_conversations[user_id]["last_product"] = None
+        
+        return {
+            "text": "🏠 Back to main menu. What would you like to explore?\n\n• Browse categories\n• Ask about specific products\n• See cheapest options\n• Compare products\n\nJust let me know! 😊",
+            "reply_markup": get_product_list_keyboard()
+        }
+    
+    # Handle product selection from main menu
+    if callback_data.startswith("product:"):
+        product = callback_data.replace("product:", "")
+        # Update user's last product in memory
+        set_last_product(user_id, product)
+        
+        # Get product response
+        response = conversation_handler.get_product_response(product)
+        
+        return {
+            "text": response,
+            "reply_markup": product_buttons(product)
+        }
+    
+    # Parse action and product name
+    try:
+        action, product = callback_data.split(":", 1)
+    except ValueError:
+        return {"text": "Oops! Something went wrong. Please try again.", "reply_markup": None}
+    
+    # Update user's last product in memory
+    set_last_product(user_id, product)
+    
+    # Handle different button actions
+    if action == "price":
+        price = PRODUCT_PRICES.get(product, 0)
+        if price:
+            return {
+                "text": f"💰 The {product} costs ${price:,.2f}.\n\nGreat value for what you get! Want me to help you buy it?",
+                "reply_markup": product_buttons(product)
+            }
+        else:
+            return {
+                "text": f"I couldn't find the price for {product}. Let me help you with another product!",
+                "reply_markup": get_product_list_keyboard()
+            }
+    
+    elif action == "specs":
+        spec = get_product_spec(product)
+        if spec:
+            return {
+                "text": f"📋 **Specs for {product}:**\n\n{spec}",
+                "reply_markup": product_buttons(product)
+            }
+        else:
+            return {
+                "text": f"I couldn't find the specs for {product}. Let me help you with another product!",
+                "reply_markup": get_product_list_keyboard()
+            }
+    
+    elif action == "buy":
+        return {
+            "text": f"🛒 Great choice! You can buy the **{product}** now.\n\n✅ We offer:\n• Free delivery within 3 days 🚚\n• 30-day money-back guarantee\n• 1-year warranty\n\nContact @Store_help_bot to complete your order!",
+            "reply_markup": product_buttons(product)
+        }
+    
+    elif action == "cart":
+        from .cart_manager import add_to_cart
+        success = add_to_cart(user_id, product)
+        if success:
+            return {
+                "text": f"✅ Added **{product}** to your cart!\n\nWant to:\n• Continue shopping\n• View cart\n• Proceed to checkout",
+                "reply_markup": cart_action_buttons()
+            }
+        else:
+            return {
+                "text": f"❌ Sorry, couldn't add **{product}** to cart. Please try again.",
+                "reply_markup": product_buttons(product)
+            }
+    
+    elif action == "compare":
+        return {
+            "text": f"🔄 Let's compare the **{product}**!\n\nWhich other product would you like to compare it with? Just type the product name!",
+            "reply_markup": product_buttons(product)
+        }
+    
+    elif action == "action":
+        # Handle special actions: view_cart, checkout, clear_cart
+        from .cart_manager import get_cart_summary, clear_cart
+        
+        if product == "view_cart":
+            summary = get_cart_summary(user_id)
+            return {
+                "text": summary,
+                "reply_markup": cart_view_buttons()
+            }
+        elif product == "checkout":
+            import os
+            from .cart_manager import get_cart
+            from .stripe_handler import create_checkout_session
+            
+            cart_items = get_cart(user_id)
+            if not cart_items:
+                return {
+                    "text": "🛒 Your cart is empty. Add an item before checkout.",
+                    "reply_markup": get_product_list_keyboard()
+                }
+
+            # Build Stripe line_items
+            line_items = [
+                {
+                    "price_data": {
+                        "currency": "usd",
+                        "product_data": {"name": item.product_name},
+                        "unit_amount": int(item.unit_price * 100)
+                    },
+                    "quantity": item.quantity
+                }
+                for item in cart_items
+            ]
+
+            base_url = os.getenv("PUBLIC_BASE_URL", "http://localhost:5000")
+            success_url = f"{base_url}/api/payment-success?session_id={{CHECKOUT_SESSION_ID}}"
+            cancel_url = f"{base_url}/api/payment-cancel"
+
+            session_data = create_checkout_session(
+                user_id=user_id,
+                line_items=line_items,
+                success_url=success_url,
+                cancel_url=cancel_url
+            )
+
+            if session_data.get("error"):
+                return {
+                    "text": f"❌ Checkout error: {session_data['error']}",
+                    "reply_markup": cart_view_buttons()
+                }
+
+            checkout_url = session_data.get("url")
+            return {
+                "text": f"💳 Proceeding to secure checkout...\n\nPlease tap this link to pay: {checkout_url}",
+                "reply_markup": cart_view_buttons()
+            }
+        elif product == "clear_cart":
+            clear_cart(user_id)
+            return {
+                "text": "🗑️ Your cart has been cleared.\n\nWould you like to start shopping again?",
+                "reply_markup": get_product_list_keyboard()
+            }
+    
+    else:
+        return {
+            "text": "I'm not sure how to handle that. Try asking about a product!",
+            "reply_markup": None
+        }
+
+
+def get_product_list_keyboard():
+    """Generate a keyboard with popular products"""
+    return {
+        "inline_keyboard": [
+            [
+                {"text": "⌚ Smartwatch", "callback_data": "product:Smartwatch X"},
+                {"text": "🎧 Earbuds", "callback_data": "product:Wireless Earbuds Pro"}
+            ],
+            [
+                {"text": "📷 Camera", "callback_data": "product:4K Action Camera"},
+                {"text": "🏠 Smart Hub", "callback_data": "product:Smart Home Hub"}
+            ],
+            [
+                {"text": "🔋 Power Bank", "callback_data": "product:Power Bank 20000mAh"},
+                {"text": "🔊 Speaker", "callback_data": "product:Bluetooth Speaker Mini"}
+            ],
+            [
+                {"text": "💪 Fitness Band", "callback_data": "product:Fitness Band Pro"},
+                {"text": "🥽 VR Headset", "callback_data": "product:VR Headset Max"}
+            ]
+        ]
+    }
+
+def cart_action_buttons():
+    """Generate buttons for cart actions"""
+    return {
+        "inline_keyboard": [
+            [
+                {"text": "🛍️ View Cart", "callback_data": "action:view_cart"},
+                {"text": "💳 Checkout", "callback_data": "action:checkout"}
+            ],
+            [
+                {"text": "🛒 Continue Shopping", "callback_data": "back"}
+            ]
+        ]
+    }
+
+
+def cart_view_buttons():
+    """Generate buttons when viewing cart"""
+    return {
+        "inline_keyboard": [
+            [
+                {"text": "💳 Proceed to Checkout", "callback_data": "action:checkout"},
+                {"text": "🗑️ Clear Cart", "callback_data": "action:clear_cart"}
+            ],
+            [
+                {"text": "🛒 Continue Shopping", "callback_data": "back"}
+            ]
+        ]
+    }

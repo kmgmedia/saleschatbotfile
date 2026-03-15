@@ -1,0 +1,34 @@
+.vercel
+.env
+*.env
+.env*
+.env.local
+.env.production
+.env.check
+.env.vercel*
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+.vscode/
+.idea/
+*.log
+.env*.local
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+saleschatbot.db
+api/migrate_bigint_user_ids.py
+
+# Test/temp files
+test_data_generator.py
+clear_database.py
+test_flask.py
