@@ -343,8 +343,8 @@ def checkout():
             for item in cart_items
         ]
         
-        # Get domain (adjust based on deployment)
-        domain = request.host_url.rstrip('/')
+        # Use Vercel domain for Stripe checkout
+        domain = "https://saleschatbotfile.vercel.app"
         success_url = f"{domain}/api/payment-success?session_id={{CHECKOUT_SESSION_ID}}"
         cancel_url = f"{domain}/api/payment-cancel"
         
