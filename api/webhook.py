@@ -330,14 +330,10 @@ def checkout():
         if not cart_items:
             return jsonify({'error': 'Cart is empty'}), 400
         
-        # Convert cart to format for Stripe
+        # Convert cart to format for Stripe using Price ID
         line_items = [
             {
-                'price_data': {
-                    'currency': 'usd',
-                    'product_data': {'name': item.product_name},
-                    'unit_amount': int(item.unit_price * 100)
-                },
+                'price': 'price_1TBXYAG7cS9Y8uV3h6RLRW5g',
                 'quantity': item.quantity
             }
             for item in cart_items
