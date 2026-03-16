@@ -12,7 +12,7 @@ sys.path.insert(0, os.path.dirname(__file__))
 
 if __name__ == '__main__':
     # Import after path is properly set
-    from webhook import app
+    from api.webhook import app
     
     print("Starting Flask server...")
     print("Dashboard: http://localhost:5000/static/dashboard.html")

@@ -226,6 +226,20 @@ def get_product_list_keyboard():
         ]
     }
 
+def quick_reply_buttons():
+    """Generate quick reply buttons for common actions"""
+    return {
+        "inline_keyboard": [
+            [
+                {"text": "🛍️ View Products", "callback_data": "view_products"},
+                {"text": "❓ Ask a Question", "callback_data": "ask_question"}
+            ],
+            [
+                {"text": "💳 Checkout", "callback_data": "action:checkout"},
+                {"text": "🛒 View Cart", "callback_data": "action:view_cart"}
+            ]
+        ]
+    }
 def cart_action_buttons():
     """Generate buttons for cart actions"""
     return {

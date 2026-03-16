@@ -8,9 +8,18 @@ import sys
 import requests
 from flask import Flask, request, jsonify
 from dotenv import load_dotenv
+import os
 
-# Load environment variables from .env file (for local development)
-load_dotenv()
+# Explicitly load .env from project root
+env_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), '.env')
+load_dotenv(dotenv_path=env_path)
+
+# Debug print for environment loading
+print(f"[webhook.py] CWD: {os.getcwd()}", file=sys.stderr)
+print(f"[webhook.py] TELEGRAM_TOKEN: {os.getenv('TELEGRAM_TOKEN')}", file=sys.stderr)
+print(f"[webhook.py] STRIPE_SECRET_KEY: {os.getenv('STRIPE_SECRET_KEY')}", file=sys.stderr)
+print(f"[webhook.py] STRIPE_PUBLISHABLE_KEY: {os.getenv('STRIPE_PUBLISHABLE_KEY')}", file=sys.stderr)
+print(f"[webhook.py] STRIPE_WEBHOOK_SECRET: {os.getenv('STRIPE_WEBHOOK_SECRET')}", file=sys.stderr)
 
 # Import our modular components
 try:
@@ -178,7 +187,7 @@ def webhook():
                 
                 # Handle /start command with product keyboard
                 if user_message.startswith('/start'):
-                    from .inline_keyboard import get_product_list_keyboard
+                    from .inline_keyboard import quick_reply_buttons
                     welcome_text = """👋 Hey! I'm Alex, your personal tech consultant here at KMGMedia Design & Technologies.
 
 With 7 years helping folks find their perfect gadgets, I'm here to make sure you get exactly what you need - not just what's on sale! 😊
@@ -190,12 +199,10 @@ I can help you find the perfect gadget! Choose a product below or just tell me w
 • "I want a fitness tracker"
 
 What brings you in today? Let's find something awesome for you! 🎯"""
-                    
                     # Add to user memory
                     user_memory.add_user_message(user_message)
                     user_memory.add_ai_message(welcome_text)
-                    
-                    send_message(chat_id, welcome_text, reply_markup=get_product_list_keyboard())
+                    send_message(chat_id, welcome_text, reply_markup=quick_reply_buttons())
                     return jsonify({'ok': True})
 
                 # Quick cart view/checkout entrypoint

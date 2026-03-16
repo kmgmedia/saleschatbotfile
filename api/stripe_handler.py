@@ -7,9 +7,17 @@ import stripe
 import sys
 from datetime import datetime
 from dotenv import load_dotenv
+import os
 
-# Load environment variables
-load_dotenv()
+# Explicitly load .env from project root
+env_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), '.env')
+load_dotenv(dotenv_path=env_path)
+
+# Debug print for environment loading
+print(f"[stripe_handler.py] CWD: {os.getcwd()}", file=sys.stderr)
+print(f"[stripe_handler.py] STRIPE_SECRET_KEY: {os.getenv('STRIPE_SECRET_KEY')}", file=sys.stderr)
+print(f"[stripe_handler.py] STRIPE_PUBLISHABLE_KEY: {os.getenv('STRIPE_PUBLISHABLE_KEY')}", file=sys.stderr)
+print(f"[stripe_handler.py] STRIPE_WEBHOOK_SECRET: {os.getenv('STRIPE_WEBHOOK_SECRET')}", file=sys.stderr)
 
 try:
     from .database import get_session

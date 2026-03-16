@@ -542,44 +542,18 @@ Which bundle interests you? 🎯"""
         return conversation_response
     
     if any(word in msg for word in ['hi', 'hello', 'hey', 'start']):
-        return "👋 Hello! I'm Alex from KMGMedia Design & Technologies! With 7 years in tech sales, I've helped thousands find their perfect gadgets. We have 21 amazing products ranging from $29 to $850 - Smart Home, Audio, Wearables, Cameras, and more! What brings you in today?"
+        from .inline_keyboard import quick_reply_buttons
+        return {
+            "text": "👋 Hello! I'm Alex from KMGMedia Design & Technologies! With 7 years in tech sales, I've helped thousands find their perfect gadgets. We have 21 amazing products ranging from $29 to $850 - Smart Home, Audio, Wearables, Cameras, and more! What brings you in today?",
+            "reply_markup": quick_reply_buttons()
+        }
     
     if any(word in msg for word in ['product', 'sell', 'have', 'what', 'show', 'all', 'catalog', 'list']):
-        return """🛍️ **Our Complete Product Catalog** (20 Items):
-
-💡 **SMART HOME** ($49-$450)
-• Smart LED Strip Lights - $49
-• Smart Light Bulb 4-Pack - $99
-• Smart Doorbell Cam - $190
-• Smart Security Camera - $210
-• Smart Thermostat - $220
-• Smart Home Hub - $450
-
-🎧 **AUDIO** ($29-$180)
-• Bluetooth Speaker Mini - $29
-• Wireless Earbuds Pro - $79
-• Noise-Cancelling Headphones - $180
-
-⌚ **WEARABLES** ($35-$59)
-• Fitness Tracker Band - $35
-• Smartwatch X - $59
-
-🔋 **POWER & CHARGING** ($45-$300)
-• Wireless Charging Pad - $45
-• Portable Solar Charger - $99
-• Power Bank 20000mAh - $300
-
-💻 **PRODUCTIVITY** ($75-$89)
-• Laptop Stand Pro - $75
-• Foldable Wireless Keyboard - $89
-
-📹 **CAMERAS & ENTERTAINMENT** ($250-$850)
-• Mini Drone X2 - $250
-• Portable Projector Pro - $320
-• VR Headset Max - $480
-• 4K Action Camera - $850
-
-Which category interests you?"""
+        from .inline_keyboard import quick_reply_buttons
+        return {
+            "text": "🛍️ **Our Complete Product Catalog** (20 Items):\n\n💡 **SMART HOME** ($49-$450)\n• Smart LED Strip Lights - $49\n• Smart Light Bulb 4-Pack - $99\n• Smart Doorbell Cam - $190\n• Smart Security Camera - $210\n• Smart Thermostat - $220\n• Smart Home Hub - $450\n\n🎧 **AUDIO** ($29-$180)\n• Bluetooth Speaker Mini - $29\n• Wireless Earbuds Pro - $79\n• Noise-Cancelling Headphones - $180\n\n⌚ **WEARABLES** ($35-$59)\n• Fitness Tracker Band - $35\n• Smartwatch X - $59\n\n🔋 **POWER & CHARGING** ($45-$300)\n• Wireless Charging Pad - $45\n• Portable Solar Charger - $99\n• Power Bank 20000mAh - $300\n\n💻 **PRODUCTIVITY** ($75-$89)\n• Laptop Stand Pro - $75\n• Foldable Wireless Keyboard - $89\n\n📹 **CAMERAS & ENTERTAINMENT** ($250-$850)\n• Mini Drone X2 - $250\n• Portable Projector Pro - $320\n• VR Headset Max - $480\n• 4K Action Camera - $850",
+            "reply_markup": quick_reply_buttons()
+        }
     
     # Category browsing (MUST be before individual product detection!)
     if ('smart home' in msg or msg.strip() == 'smart home') and not any(word in msg for word in ['automate', 'automation', 'control lights', 'voice control', 'home security', 'protect home']):
