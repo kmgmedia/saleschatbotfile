@@ -55,6 +55,40 @@ The bot will:
 
 ---
 
+## 🏗️ Architecture - How It Works
+
+The bot uses an intelligent **Intent Classification System** that routes customer messages to the right handler:
+
+```
+User Message → Intent Classification (AI + Keyword Fallback)
+                    ↓
+            ┌───────┼───────┐
+            ↓       ↓       ↓
+        Purchase Support Upsell
+            ↓       ↓       ↓
+        (Cart)  (Help)  (Premium)
+            ↓       ↓       ↓
+            └───────┼───────┘
+                    ↓
+            Update & Store Context
+                    ↓
+            Send Response to Telegram
+```
+
+**View the complete flow diagram:** [INTENT_CLASSIFICATION_FLOW.html](INTENT_CLASSIFICATION_FLOW.html) (Open in browser for a professional architecture diagram)
+
+**View the analytics system:** [CONVERSATION_ANALYTICS.html](CONVERSATION_ANALYTICS.html) (Real-time metrics, conversion tracking, intent distribution)
+
+**View the recommendation engine:** [PRODUCT_RECOMMENDATION_OUTPUT.html](PRODUCT_RECOMMENDATION_OUTPUT.html) (Context-aware personalization pipeline)
+
+### 🔄 Three Intent Routes:
+
+- **💰 Purchase Flow** - Product browsing, pricing, cart management, checkout
+- **🆘 Support Flow** - Issue logging, help content, solutions
+- **📈 Upsell Flow** - Premium recommendations, add-on suggestions, upgrades
+
+---
+
 ## 🛍️ Your Products
 
 Current catalog:
